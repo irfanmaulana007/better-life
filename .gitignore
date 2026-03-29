@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+vendor/
+
+# React Native / iOS
+client/ios/Pods/
+client/ios/build/
+client/ios/*.xcworkspace
+client/ios/*.xcodeproj/xcuserdata/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# React Native
+client/.expo/
+client/*.hprof
+*.log
+
+# Go
+server/bin/
+server/*.exe
+server/*.exe~
+server/*.dll
+server/*.so
+server/*.dylib
+server/*.test
+server/*.out
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+*.tgz
+
+# Testing
+coverage/
+*.lcov
+
+# Misc
+*.log
+*.tmp
+*.temp
