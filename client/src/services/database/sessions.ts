@@ -216,3 +216,76 @@ export async function sessionExists(
   const session = await getSessionByActivityAndDate(activityLocalId, date);
   return session !== null;
 }
+
+// Calculate current streak (consecutive days with at least one completed session)
+export async function calculateStreak(): Promise<number> {
+  const db = getDatabase();
+
+  // Get all dates with completed sessions, ordered by date descending
+  const rows = await db.getAllAsync<{ date: string }>(
+    `SELECT DISTINCT date FROM sessions
+     WHERE is_completed = 1 AND deleted_at IS NULL
+     ORDER BY date DESC`
+  );
+
+  if (rows.length === 0) return 0;
+
+  const dates = rows.map(r => r.date);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  let streak = 0;
+  let checkDate = new Date(today);
+
+  // Check if today has any completed sessions
+  const todayStr = checkDate.toISOString().split('T')[0];
+  const hasTodaySession = dates.includes(todayStr);
+
+  // If no session today, start checking from yesterday
+  if (!hasTodaySession) {
+    checkDate.setDate(checkDate.getDate() - 1);
+  }
+
+  // Count consecutive days
+  while (true) {
+    const dateStr = checkDate.toISOString().split('T')[0];
+    if (dates.includes(dateStr)) {
+      streak++;
+      checkDate.setDate(checkDate.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+
+  return streak;
+}
+
+// Get completion stats for a date
+export async function getDateCompletionStats(
+  date: string
+): Promise<{ completed: number; total: number }> {
+  const db = getDatabase();
+
+  // Get the day of week for the date (0 = Sunday)
+  const dayOfWeek = new Date(date).getDay();
+
+  // Count activities scheduled for this day
+  const totalResult = await db.getFirstAsync<{ count: number }>(
+    `SELECT COUNT(*) as count FROM activities
+     WHERE deleted_at IS NULL
+     AND schedule_days LIKE '%' || ? || '%'`,
+    [dayOfWeek.toString()]
+  );
+
+  // Count completed sessions for this date
+  const completedResult = await db.getFirstAsync<{ count: number }>(
+    `SELECT COUNT(*) as count FROM sessions
+     WHERE date = ? AND is_completed = 1 AND deleted_at IS NULL`,
+    [date]
+  );
+
+  return {
+    completed: completedResult?.count || 0,
+    total: totalResult?.count || 0,
+  };
+}

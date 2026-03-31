@@ -1,4 +1,5 @@
 export { default as HomeScreen } from './HomeScreen';
+export { default as LogSessionScreen } from './LogSessionScreen';
 export { default as MilestoneListScreen } from './MilestoneListScreen';
 export { default as MilestoneDetailScreen } from './MilestoneDetailScreen';
 export { default as MilestoneFormScreen } from './MilestoneFormScreen';

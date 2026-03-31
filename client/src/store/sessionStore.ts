@@ -10,11 +10,15 @@ import {
   updateSession,
   deleteSession,
   getTodaySessions,
+  calculateStreak,
+  getDateCompletionStats,
 } from '@services/database/sessions';
 
 interface SessionStore {
   sessions: Session[];
   todaySessions: Session[];
+  currentStreak: number;
+  completionStats: { completed: number; total: number };
   isLoading: boolean;
   error: string | null;
 
@@ -25,6 +29,8 @@ interface SessionStore {
   fetchSessionsByDateRange: (startDate: string, endDate: string) => Promise<void>;
   fetchSessionById: (localId: string) => Promise<Session | null>;
   getSessionForActivityOnDate: (activityLocalId: string, date: string) => Promise<Session | null>;
+  fetchStreak: () => Promise<void>;
+  fetchCompletionStats: (date: string) => Promise<void>;
   addSession: (data: CreateSessionDTO) => Promise<Session>;
   editSession: (localId: string, data: UpdateSessionDTO) => Promise<Session | null>;
   removeSession: (localId: string) => Promise<boolean>;
@@ -35,6 +41,8 @@ interface SessionStore {
 export const useSessionStore = create<SessionStore>((set, get) => ({
   sessions: [],
   todaySessions: [],
+  currentStreak: 0,
+  completionStats: { completed: 0, total: 0 },
   isLoading: false,
   error: null,
 
@@ -112,12 +120,37 @@ export const useSessionStore = create<SessionStore>((set, get) => ({
     }
   },
 
+  fetchStreak: async () => {
+    try {
+      const currentStreak = await calculateStreak();
+      set({ currentStreak });
+    } catch (error) {
+      set({
+        error: error instanceof Error ? error.message : 'Failed to fetch streak',
+      });
+    }
+  },
+
+  fetchCompletionStats: async (date: string) => {
+    try {
+      const completionStats = await getDateCompletionStats(date);
+      set({ completionStats });
+    } catch (error) {
+      set({
+        error: error instanceof Error ? error.message : 'Failed to fetch completion stats',
+      });
+    }
+  },
+
   addSession: async (data: CreateSessionDTO) => {
     set({ isLoading: true, error: null });
     try {
       const session = await createSession(data);
-      // Refresh today's sessions
+      // Refresh today's sessions, streak, and completion stats
       await get().fetchTodaySessions();
+      await get().fetchStreak();
+      await get().fetchCompletionStats(data.date);
+      set({ isLoading: false });
       return session;
     } catch (error) {
       set({

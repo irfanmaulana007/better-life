@@ -176,46 +176,46 @@
 ## Phase 4: Daily Tracking & Dashboard (MVP)
 
 ### 4.1 Session CRUD Operations
-- [ ] Implement `createSession` database function
-- [ ] Implement `getSessionsByDate` database function
-- [ ] Implement `getSessionsByActivity` database function
-- [ ] Implement `getSessionsByDateRange` database function
-- [ ] Implement `updateSession` database function
-- [ ] Implement `deleteSession` database function (soft delete)
+- [x] Implement `createSession` database function
+- [x] Implement `getSessionsByDate` database function
+- [x] Implement `getSessionsByActivity` database function
+- [x] Implement `getSessionsByDateRange` database function
+- [x] Implement `updateSession` database function
+- [x] Implement `deleteSession` database function (soft delete)
 
 ### 4.2 Dashboard / Home Screen
-- [ ] Create HomeScreen component
-- [ ] Create DashboardHeader component (milestone name, countdown)
-- [ ] Fetch today's scheduled activities
-- [ ] Create TodayActivityList component
-- [ ] Create TodayActivityCard component
-- [ ] Show activity name, target, completion status
-- [ ] Add quick complete toggle
-- [ ] Create DailyProgressBar component
-- [ ] Create StreakCounter component
-- [ ] Calculate current streak
+- [x] Create HomeScreen component
+- [x] Create DashboardHeader component (milestone name, countdown)
+- [x] Fetch today's scheduled activities
+- [x] Create TodayActivityList component
+- [x] Create TodayActivityCard component
+- [x] Show activity name, target, completion status
+- [x] Add quick complete toggle
+- [x] Create DailyProgressBar component
+- [x] Create StreakCounter component
+- [x] Calculate current streak
 
-### 4.3 Session Logging Modal
-- [ ] Create LogSessionModal component
-- [ ] Display activity name and target goal
-- [ ] Add "Mark as completed" toggle
-- [ ] Create dynamic input based on unit type:
-  - [ ] Distance input (numeric, km)
-  - [ ] Time input (hours:minutes picker)
-  - [ ] Reps input (numeric)
-  - [ ] Counter input (numeric)
-- [ ] Add optional notes text field
-- [ ] Implement save logic
-- [ ] Close modal on save
-- [ ] Update UI to reflect new session
+### 4.3 Session Logging Screen
+- [x] Create LogSessionScreen component
+- [x] Display activity name and target goal
+- [x] Add "Mark as completed" toggle
+- [x] Create dynamic input based on unit type:
+  - [x] Distance input (numeric, km)
+  - [x] Time input (numeric minutes)
+  - [x] Reps input (numeric)
+  - [x] Counter input (numeric)
+- [x] Add optional notes text field
+- [x] Implement save logic
+- [x] Navigate back on save
+- [x] Update UI to reflect new session
 
 ### 4.4 Date Navigation
-- [ ] Create DateSelector component
-- [ ] Allow navigating to past dates
-- [ ] Allow navigating to future dates (for planning)
-- [ ] Fetch activities and sessions for selected date
-- [ ] Show existing sessions for past dates
-- [ ] Allow editing past sessions
+- [x] Create DateSelector component
+- [x] Allow navigating to past dates
+- [x] Allow navigating to future dates (for planning)
+- [x] Fetch activities and sessions for selected date
+- [x] Show existing sessions for past dates
+- [x] Allow editing past sessions
 
 ---
 
