@@ -10,52 +10,52 @@
 ## Phase 1: Project Setup & Foundation
 
 ### 1.1 Monorepo Initialization
-- [ ] Initialize Git repository at project root
-- [ ] Create directory structure:
+- [x] Initialize Git repository at project root
+- [x] Create directory structure:
   ```
   betterlife/
   ├── client/
   ├── server/
   └── docs/
   ```
-- [ ] Create root .gitignore (Node.js + Go + iOS)
-- [ ] Create root README.md with project overview
-- [ ] Create Makefile with common commands:
+- [x] Create root .gitignore (Node.js + Go + iOS)
+- [x] Create root README.md with project overview
+- [x] Create Makefile with common commands:
   - `make client-install` - Install client dependencies
   - `make client-start` - Start React Native
   - `make server-start` - Start Go server
   - `make db-up` - Start PostgreSQL
   - `make db-migrate` - Run Sqitch migrations
-- [ ] Create docker-compose.yml for local PostgreSQL
-- [ ] Create initial commit
+- [x] Create docker-compose.yml for local PostgreSQL
+- [x] Create initial commit
 
-### 1.2 React Native Project Initialization
-- [ ] Initialize React Native project in client/ directory (`cd client && npx react-native init BetterLife --template react-native-template-typescript .`)
-- [ ] Configure iOS deployment target to iOS 14+
-- [ ] Set up folder structure (src/components, screens, services, types, store, hooks, utils, constants)
-- [ ] Configure ESLint with TypeScript rules
-- [ ] Configure Prettier for code formatting
-- [ ] Add .editorconfig for consistent editor settings
+### 1.2 Expo Project Initialization
+- [x] Initialize Expo project in client/ directory
+- [x] Set up folder structure (src/components, screens, services, types, store, hooks, utils, constants)
+- [x] Configure ESLint with TypeScript rules
+- [x] Configure Prettier for code formatting
+- [x] Add .editorconfig for consistent editor settings
+- [x] Configure app.json for Expo
+- [x] Configure babel.config.js with path aliases
 
 ### 1.3 Install Core Dependencies
-- [ ] Install React Navigation (`@react-navigation/native`, `@react-navigation/bottom-tabs`, `@react-navigation/stack`)
-- [ ] Install navigation peer dependencies (react-native-screens, react-native-safe-area-context, etc.)
-- [ ] Install Zustand for state management
-- [ ] Install react-native-sqlite-storage for local database
-- [ ] Install Victory Native for charts
-- [ ] Install date-fns for date manipulation
-- [ ] Install React Hook Form + Zod for form handling
-- [ ] Install UI library (react-native-paper or similar)
-- [ ] Install react-native-modal for modal dialogs
-- [ ] Install axios for HTTP requests
-- [ ] Install react-native-uuid for local ID generation
-- [ ] Install @react-native-async-storage/async-storage for simple key-value storage
-- [ ] Install react-native-netinfo for network status detection
-- [ ] Run pod install for iOS
+- [x] Install Expo SDK and expo-sqlite
+- [x] Install React Navigation (`@react-navigation/native`, `@react-navigation/bottom-tabs`, `@react-navigation/stack`)
+- [x] Install navigation peer dependencies (react-native-screens, react-native-safe-area-context, etc.)
+- [x] Install Zustand for state management
+- [x] Install Victory Native for charts
+- [x] Install date-fns for date manipulation
+- [x] Install React Hook Form + Zod for form handling
+- [x] Install UI library (react-native-paper)
+- [x] Install react-native-modal for modal dialogs
+- [x] Install axios for HTTP requests
+- [x] Install uuid for local ID generation
+- [x] Install @react-native-async-storage/async-storage for simple key-value storage
+- [x] Install @react-native-community/netinfo for network status detection
 
-### 1.4 Local Database Setup (SQLite)
+### 1.4 Local Database Setup (expo-sqlite)
 - [ ] Create database service file (`client/src/services/database/index.ts`)
-- [ ] Implement database initialization function
+- [ ] Implement database initialization function using expo-sqlite
 - [ ] Create milestones table schema with sync columns:
   ```sql
   local_id, server_id, name, start_date, end_date,
@@ -536,4 +536,4 @@
 
 ---
 
-**Last Updated:** 2026-03-30
+**Last Updated:** 2026-03-31
