@@ -136,40 +136,40 @@
 ## Phase 3: Activity Management (MVP)
 
 ### 3.1 Activity CRUD Operations
-- [ ] Implement `createActivity` database function
-- [ ] Implement `getActivitiesByMilestone` database function
-- [ ] Implement `getActivityById` database function
-- [ ] Implement `updateActivity` database function
-- [ ] Implement `deleteActivity` database function (soft delete)
-- [ ] Implement `getActivitiesByScheduleDay` function (for daily view)
+- [x] Implement `createActivity` database function
+- [x] Implement `getActivitiesByMilestone` database function
+- [x] Implement `getActivityById` database function
+- [x] Implement `updateActivity` database function
+- [x] Implement `deleteActivity` database function (soft delete)
+- [x] Implement `getActivitiesByScheduleDay` function (for daily view)
 
 ### 3.2 Activity List Screen
-- [ ] Create ActivityListScreen component
-- [ ] Create ActivityCard component
-- [ ] Display activity name, unit type, target
-- [ ] Display scheduled days as badges (M, T, W, T, F, S, S)
-- [ ] Add FAB button to create new activity
-- [ ] Filter activities by selected milestone
-- [ ] Handle empty state
+- [x] Create ActivityListScreen component
+- [x] Create ActivityCard component
+- [x] Display activity name, unit type, target
+- [x] Display scheduled days as badges (M, T, W, T, F, S, S)
+- [x] Add FAB button to create new activity
+- [x] Filter activities by selected milestone
+- [x] Handle empty state
 
 ### 3.3 Create/Edit Activity Screen
-- [ ] Create ActivityFormScreen component
-- [ ] Add name input field
-- [ ] Create unit type selector (distance, time, reps, counter)
-- [ ] Add unit name input (km, minutes, reps, etc.)
-- [ ] Add target goal input (optional, numeric)
-- [ ] Create day-of-week multi-select component
-- [ ] Add milestone selector (if creating from general screen)
-- [ ] Implement form validation
-- [ ] Handle create mode vs edit mode
-- [ ] Save activity to database
+- [x] Create ActivityFormScreen component
+- [x] Add name input field
+- [x] Create unit type selector (distance, time, reps, counter)
+- [x] Add unit name input (km, minutes, reps, etc.)
+- [x] Add target goal input (optional, numeric)
+- [x] Create day-of-week multi-select component
+- [x] Add milestone selector (if creating from general screen)
+- [x] Implement form validation
+- [x] Handle create mode vs edit mode
+- [x] Save activity to database
 
 ### 3.4 Activity Detail Screen
-- [ ] Create ActivityDetailScreen component
-- [ ] Display full activity information
-- [ ] Show recent sessions for this activity
-- [ ] Link to full history for this activity
-- [ ] Add edit/delete actions
+- [x] Create ActivityDetailScreen component
+- [x] Display full activity information
+- [x] Show recent sessions for this activity
+- [x] Link to full history for this activity
+- [x] Add edit/delete actions
 
 ---
 

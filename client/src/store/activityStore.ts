@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { Activity, CreateActivityDTO, UpdateActivityDTO, DayOfWeek } from '@types/entities';
 import {
   createActivity,
+  getAllActivities,
   getActivitiesByMilestone,
   getActivityById,
   getActivitiesByScheduleDay,
@@ -17,6 +18,7 @@ interface ActivityStore {
   error: string | null;
 
   // Actions
+  fetchAllActivities: () => Promise<void>;
   fetchActivitiesByMilestone: (milestoneLocalId: string) => Promise<void>;
   fetchTodayActivities: () => Promise<void>;
   fetchActivitiesByScheduleDay: (dayOfWeek: DayOfWeek) => Promise<void>;
@@ -33,6 +35,19 @@ export const useActivityStore = create<ActivityStore>((set, get) => ({
   todayActivities: [],
   isLoading: false,
   error: null,
+
+  fetchAllActivities: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const activities = await getAllActivities();
+      set({ activities, isLoading: false });
+    } catch (error) {
+      set({
+        error: error instanceof Error ? error.message : 'Failed to fetch activities',
+        isLoading: false,
+      });
+    }
+  },
 
   fetchActivitiesByMilestone: async (milestoneLocalId: string) => {
     set({ isLoading: true, error: null });

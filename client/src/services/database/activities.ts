@@ -85,6 +85,15 @@ export async function getActivityById(
   return row ? rowToActivity(row) : null;
 }
 
+// Get all activities
+export async function getAllActivities(): Promise<Activity[]> {
+  const db = getDatabase();
+  const rows = await db.getAllAsync<ActivityRow>(
+    `SELECT * FROM activities WHERE deleted_at IS NULL ORDER BY name`
+  );
+  return rows.map(rowToActivity);
+}
+
 // Get activities by milestone
 export async function getActivitiesByMilestone(
   milestoneLocalId: string
