@@ -97,39 +97,39 @@
 ## Phase 2: Milestone Management (MVP)
 
 ### 2.1 Milestone CRUD Operations
-- [ ] Implement `createMilestone` database function (generates UUID, sets sync_status='pending')
-- [ ] Implement `getMilestones` database function (excludes soft-deleted)
-- [ ] Implement `getMilestoneById` database function
-- [ ] Implement `updateMilestone` database function (updates updated_at, sets sync_status='pending')
-- [ ] Implement `deleteMilestone` database function (soft delete with deleted_at)
-- [ ] Implement `getActivitiesCountByMilestone` function
+- [x] Implement `createMilestone` database function (generates UUID, sets sync_status='pending')
+- [x] Implement `getMilestones` database function (excludes soft-deleted)
+- [x] Implement `getMilestoneById` database function
+- [x] Implement `updateMilestone` database function (updates updated_at, sets sync_status='pending')
+- [x] Implement `deleteMilestone` database function (soft delete with deleted_at)
+- [x] Implement `getActivitiesCountByMilestone` function
 
 ### 2.2 Milestone List Screen
-- [ ] Create MilestoneListScreen component
-- [ ] Create MilestoneCard component
-- [ ] Display milestone name, dates, days remaining
-- [ ] Display activity count per milestone
-- [ ] Add FAB button to create new milestone
-- [ ] Implement pull-to-refresh
-- [ ] Handle empty state (no milestones)
+- [x] Create MilestoneListScreen component
+- [x] Create MilestoneCard component
+- [x] Display milestone name, dates, days remaining
+- [x] Display activity count per milestone
+- [x] Add FAB button to create new milestone
+- [x] Implement pull-to-refresh
+- [x] Handle empty state (no milestones)
 
 ### 2.3 Create/Edit Milestone Screen
-- [ ] Create MilestoneFormScreen component
-- [ ] Add name input field with validation
-- [ ] Add start date picker
-- [ ] Add end date picker (optional)
-- [ ] Implement form validation (name required, dates valid)
-- [ ] Handle create mode vs edit mode
-- [ ] Save milestone to database
-- [ ] Navigate back on success
+- [x] Create MilestoneFormScreen component
+- [x] Add name input field with validation
+- [x] Add start date picker
+- [x] Add end date picker (optional)
+- [x] Implement form validation (name required, dates valid)
+- [x] Handle create mode vs edit mode
+- [x] Save milestone to database
+- [x] Navigate back on success
 
 ### 2.4 Milestone Detail Screen
-- [ ] Create MilestoneDetailScreen component
-- [ ] Display milestone information
-- [ ] Show list of associated activities
-- [ ] Add edit button (navigate to form)
-- [ ] Add delete button with confirmation dialog
-- [ ] Calculate and display progress metrics
+- [x] Create MilestoneDetailScreen component
+- [x] Display milestone information
+- [x] Show list of associated activities
+- [x] Add edit button (navigate to form)
+- [x] Add delete button with confirmation dialog
+- [x] Calculate and display progress metrics
 
 ---
 
