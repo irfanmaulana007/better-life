@@ -54,43 +54,43 @@
 - [x] Install @react-native-community/netinfo for network status detection
 
 ### 1.4 Local Database Setup (expo-sqlite)
-- [ ] Create database service file (`client/src/services/database/index.ts`)
-- [ ] Implement database initialization function using expo-sqlite
-- [ ] Create milestones table schema with sync columns:
+- [x] Create database service file (`client/src/services/database/index.ts`)
+- [x] Implement database initialization function using expo-sqlite
+- [x] Create milestones table schema with sync columns:
   ```sql
   local_id, server_id, name, start_date, end_date,
   sync_status, created_at, updated_at, deleted_at
   ```
-- [ ] Create activities table schema with sync columns:
+- [x] Create activities table schema with sync columns:
   ```sql
   local_id, server_id, milestone_local_id, name, unit_type,
   unit_name, target_goal, schedule_days, sync_status,
   created_at, updated_at, deleted_at
   ```
-- [ ] Create sessions table schema with sync columns:
+- [x] Create sessions table schema with sync columns:
   ```sql
   local_id, server_id, activity_local_id, date, is_completed,
   actual_result, target_goal, notes, sync_status,
   created_at, updated_at, deleted_at
   ```
-- [ ] Implement local migration system for schema versioning
-- [ ] Create TypeScript interfaces for all entities (`client/src/types/entities.ts`)
-- [ ] Test database creation on app launch
+- [x] Implement local migration system for schema versioning
+- [x] Create TypeScript interfaces for all entities (`client/src/types/entities.ts`)
+- [x] Test database creation on app launch
 
 ### 1.5 Navigation Setup
-- [ ] Create bottom tab navigator (Home, Milestones, Activities, Charts, History)
-- [ ] Create stack navigators for each tab
-- [ ] Set up navigation types for TypeScript
-- [ ] Add navigation container with theme
-- [ ] Test navigation between screens
+- [x] Create bottom tab navigator (Home, Milestones, Activities, Charts, History)
+- [x] Create stack navigators for each tab
+- [x] Set up navigation types for TypeScript
+- [x] Add navigation container with theme
+- [x] Test navigation between screens
 
 ### 1.6 State Management Setup
-- [ ] Create Zustand store for milestones
-- [ ] Create Zustand store for activities
-- [ ] Create Zustand store for sessions
-- [ ] Create Zustand store for app settings (selected milestone, last sync time, etc.)
-- [ ] Create Zustand store for sync status
-- [ ] Connect stores to database service
+- [x] Create Zustand store for milestones
+- [x] Create Zustand store for activities
+- [x] Create Zustand store for sessions
+- [x] Create Zustand store for app settings (selected milestone, last sync time, etc.)
+- [x] Create Zustand store for sync status
+- [x] Connect stores to database service
 
 ---
 
