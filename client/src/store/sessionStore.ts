@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { Session, CreateSessionDTO, UpdateSessionDTO } from '@types/entities';
 import {
   createSession,
+  getAllSessions,
   getSessionsByDate,
   getSessionsByActivity,
   getSessionsByDateRange,
@@ -23,6 +24,7 @@ interface SessionStore {
   error: string | null;
 
   // Actions
+  fetchAllSessions: (limit?: number, offset?: number) => Promise<void>;
   fetchSessionsByDate: (date: string) => Promise<void>;
   fetchTodaySessions: () => Promise<void>;
   fetchSessionsByActivity: (activityLocalId: string) => Promise<void>;
@@ -45,6 +47,27 @@ export const useSessionStore = create<SessionStore>((set, get) => ({
   completionStats: { completed: 0, total: 0 },
   isLoading: false,
   error: null,
+
+  fetchAllSessions: async (limit: number = 50, offset: number = 0) => {
+    set({ isLoading: true, error: null });
+    try {
+      const sessions = await getAllSessions(limit, offset);
+      if (offset === 0) {
+        set({ sessions, isLoading: false });
+      } else {
+        // Append for pagination
+        set(state => ({
+          sessions: [...state.sessions, ...sessions],
+          isLoading: false,
+        }));
+      }
+    } catch (error) {
+      set({
+        error: error instanceof Error ? error.message : 'Failed to fetch sessions',
+        isLoading: false,
+      });
+    }
+  },
 
   fetchSessionsByDate: async (date: string) => {
     set({ isLoading: true, error: null });

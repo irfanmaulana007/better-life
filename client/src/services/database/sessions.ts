@@ -76,6 +76,19 @@ export async function getSessionById(localId: string): Promise<Session | null> {
   return row ? rowToSession(row) : null;
 }
 
+// Get all sessions (for history)
+export async function getAllSessions(
+  limit: number = 50,
+  offset: number = 0
+): Promise<Session[]> {
+  const db = getDatabase();
+  const rows = await db.getAllAsync<SessionRow>(
+    `SELECT * FROM sessions WHERE deleted_at IS NULL ORDER BY date DESC, created_at DESC LIMIT ? OFFSET ?`,
+    [limit, offset]
+  );
+  return rows.map(rowToSession);
+}
+
 // Get sessions by date
 export async function getSessionsByDate(date: string): Promise<Session[]> {
   const db = getDatabase();

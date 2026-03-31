@@ -222,22 +222,22 @@
 ## Phase 5: History Screen (MVP)
 
 ### 5.1 History Screen UI
-- [ ] Create HistoryScreen component
-- [ ] Create ActivityFilterDropdown component
-- [ ] Create DateRangePicker component
-- [ ] Create SessionListItem component
-- [ ] Display session date, activity, target, actual result
-- [ ] Show completion status indicator
-- [ ] Implement infinite scroll / pagination
+- [x] Create HistoryScreen component
+- [x] Create ActivityFilterDropdown component
+- [x] Create DateRangePicker component
+- [x] Create SessionListItem component
+- [x] Display session date, activity, target, actual result
+- [x] Show completion status indicator
+- [x] Implement pagination support
 
 ### 5.2 History Functionality
-- [ ] Implement filter by activity
-- [ ] Implement filter by date range
-- [ ] Implement search by activity name
-- [ ] Add tap to view session detail
-- [ ] Add edit session capability
-- [ ] Add delete session with confirmation
-- [ ] Handle empty state (no sessions)
+- [x] Implement filter by activity
+- [x] Implement filter by date range
+- [x] Implement search by activity name
+- [x] Add tap to view session detail
+- [x] Add edit session capability
+- [x] Add delete session with confirmation
+- [x] Handle empty state (no sessions)
 
 ---
 

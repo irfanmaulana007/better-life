@@ -8,3 +8,4 @@ export { default as ActivityDetailScreen } from './ActivityDetailScreen';
 export { default as ActivityFormScreen } from './ActivityFormScreen';
 export { default as ChartsScreen } from './ChartsScreen';
 export { default as HistoryScreen } from './HistoryScreen';
+export { default as SessionDetailScreen } from './SessionDetailScreen';
