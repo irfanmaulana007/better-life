@@ -148,7 +148,7 @@ export default function ActivityListScreen({ navigation, route }: Props) {
 
   const renderEmpty = () => (
     <EmptyState
-      icon="🎯"
+      icon="target"
       title="No Activities Yet"
       message={
         selectedMilestoneId

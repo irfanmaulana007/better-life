@@ -1,14 +1,15 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Icon, type IconName } from './Icon';
 
 interface FABProps {
   onPress: () => void;
-  icon?: string;
+  icon?: IconName;
 }
 
-export default function FAB({ onPress, icon = '+' }: FABProps) {
+export default function FAB({ onPress, icon = 'plus' }: FABProps) {
   return (
     <TouchableOpacity style={styles.fab} onPress={onPress} activeOpacity={0.8}>
-      <Text style={styles.icon}>{icon}</Text>
+      <Icon name={icon} size={28} color="#fff" strokeWidth={2.5} />
     </TouchableOpacity>
   );
 }
@@ -29,10 +30,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8,
-  },
-  icon: {
-    fontSize: 28,
-    color: '#fff',
-    fontWeight: '300',
   },
 });

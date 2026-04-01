@@ -1,5 +1,6 @@
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from '@hooks';
+import { Icon } from './Icon';
 
 interface Props {
   message: string;
@@ -12,7 +13,9 @@ export function ErrorMessage({ message, onRetry, retryText = 'Try Again' }: Prop
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.errorLight }]}>
-      <Text style={[styles.icon]}>!</Text>
+      <View style={styles.iconContainer}>
+        <Icon name="alert" size={32} color="#FF3B30" />
+      </View>
       <Text style={[styles.message, { color: theme.colors.error }]}>{message}</Text>
       {onRetry && (
         <TouchableOpacity
@@ -33,10 +36,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 16,
   },
-  icon: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#FF3B30',
+  iconContainer: {
     marginBottom: 8,
   },
   message: {

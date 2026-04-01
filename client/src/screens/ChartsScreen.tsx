@@ -327,7 +327,7 @@ export default function ChartsScreen(_props: Props) {
             ) : (
               <View style={styles.emptyChart}>
                 <EmptyState
-                  icon="📊"
+                  icon="chart"
                   title="No Data"
                   message="Start logging sessions to see your completion rate."
                 />
@@ -352,7 +352,7 @@ export default function ChartsScreen(_props: Props) {
             ) : (
               <View style={styles.emptyChart}>
                 <EmptyState
-                  icon="📊"
+                  icon="chart"
                   title="No Data"
                   message="Start logging results to see your volume trends."
                 />

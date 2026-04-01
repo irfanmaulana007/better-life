@@ -1,6 +1,6 @@
-import { Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import type { MainTabParamList } from '@types/navigation';
+import { Icon, type IconName } from '@/components';
 import {
   HomeStack,
   MilestoneStack,
@@ -11,28 +11,16 @@ import {
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
-// Simple text-based icon component (can be replaced with actual icons later)
 function TabBarIcon({
   name,
+  color,
   size,
 }: {
-  name: string;
+  name: IconName;
   color: string;
   size: number;
 }) {
-  const icons: Record<string, string> = {
-    home: '🏠',
-    flag: '🎯',
-    list: '📋',
-    chart: '📊',
-    clock: '🕒',
-  };
-
-  return (
-    <Text style={{ fontSize: size - 4 }}>
-      {icons[name] || '○'}
-    </Text>
-  );
+  return <Icon name={name} size={size} color={color} />;
 }
 
 export default function MainTabNavigator() {
@@ -64,7 +52,7 @@ export default function MainTabNavigator() {
         options={{
           tabBarLabel: 'Milestones',
           tabBarIcon: ({ color, size }) => (
-            <TabBarIcon name="flag" color={color} size={size} />
+            <TabBarIcon name="target" color={color} size={size} />
           ),
         }}
       />

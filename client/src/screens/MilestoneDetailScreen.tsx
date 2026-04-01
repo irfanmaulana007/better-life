@@ -83,7 +83,7 @@ export default function MilestoneDetailScreen({ navigation, route }: Props) {
     return (
       <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
         <EmptyState
-          icon="❌"
+          icon="x"
           title="Milestone Not Found"
           message="This milestone may have been deleted."
         />

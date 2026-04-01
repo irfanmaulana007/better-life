@@ -65,7 +65,7 @@ export default function MilestoneListScreen({ navigation }: Props) {
         }
         ListEmptyComponent={
           <EmptyState
-            icon="🎯"
+            icon="target"
             title="No Milestones Yet"
             message="Create your first milestone to start tracking your goals and activities."
           />

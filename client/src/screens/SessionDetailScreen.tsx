@@ -156,7 +156,7 @@ export default function SessionDetailScreen({ navigation, route }: Props) {
     return (
       <View style={styles.container}>
         <EmptyState
-          icon="❌"
+          icon="x"
           title="Session Not Found"
           message="This session may have been deleted."
         />
