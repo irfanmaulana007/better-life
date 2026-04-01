@@ -244,26 +244,26 @@
 ## Phase 6: Charts & Analytics (MVP)
 
 ### 6.1 Chart Data Services
-- [ ] Create analytics service (`client/src/services/analytics/index.ts`)
-- [ ] Implement `getVolumeOverTime` function (weekly/monthly totals)
-- [ ] Implement `getCompletionRate` function (completed/scheduled %)
-- [ ] Implement `getPerformanceTrend` function (average per session)
-- [ ] Implement `getStreakData` function
+- [x] Create analytics service (`client/src/services/analytics/index.ts`)
+- [x] Implement `getVolumeOverTime` function (weekly/monthly totals)
+- [x] Implement `getCompletionRate` function (completed/scheduled %)
+- [x] Implement `getPerformanceTrend` function (average per session)
+- [x] Implement `getStreakData` function
 
 ### 6.2 Charts Screen
-- [ ] Create ChartsScreen component
-- [ ] Create chart type tab selector
-- [ ] Create VolumeChart component using Victory Native
-- [ ] Create CompletionRateChart component
-- [ ] Add activity filter for charts
-- [ ] Add date range filter for charts
-- [ ] Create StreakDisplay component (prominent)
+- [x] Create ChartsScreen component
+- [x] Create chart type tab selector
+- [x] Create VolumeChart component (custom bar chart)
+- [x] Create CompletionRateChart component
+- [x] Add activity filter for charts
+- [x] Add date range filter for charts
+- [x] Create StreakDisplay component (prominent)
 
 ### 6.3 Chart Interactivity
-- [ ] Add touch interaction to charts (show values)
-- [ ] Implement weekly/monthly toggle
-- [ ] Add loading states for chart data
-- [ ] Handle empty chart states
+- [x] Add touch interaction to charts (show values)
+- [x] Implement time range toggle (7 days, 30 days, this month, 3 months)
+- [x] Add loading states for chart data
+- [x] Handle empty chart states
 
 ---
 
