@@ -18,6 +18,7 @@ client/*.hprof
 
 # Go
 server/bin/
+server/tmp/
 server/*.exe
 server/*.exe~
 server/*.dll

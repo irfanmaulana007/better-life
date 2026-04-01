@@ -74,32 +74,28 @@ cd server/migrations && sqitch deploy
 cd server && go run cmd/api/main.go
 ```
 
-### Using Makefile
+### Server Makefile
 
 ```bash
+cd server
+
 # Show all available commands
 make help
 
-# Install client dependencies
-make client-install
-
-# Start Expo development server
-make client-start
-
-# Start on iOS simulator
-make client-ios
-
-# Start on Android emulator
-make client-android
-
-# Start database
-make db-up
-
-# Run migrations
-make db-migrate
+# Start server with hot reload (requires air)
+make dev
 
 # Start Go server
-make server-start
+make start
+
+# Build Go binary
+make build
+
+# Database commands
+make db-up        # Start PostgreSQL container
+make db-down      # Stop PostgreSQL container
+make db-migrate   # Run Sqitch migrations
+make db-revert    # Revert last migration
 ```
 
 ## License

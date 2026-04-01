@@ -97,180 +97,180 @@
 ## Phase 2: Milestone Management (MVP)
 
 ### 2.1 Milestone CRUD Operations
-- [ ] Implement `createMilestone` database function (generates UUID, sets sync_status='pending')
-- [ ] Implement `getMilestones` database function (excludes soft-deleted)
-- [ ] Implement `getMilestoneById` database function
-- [ ] Implement `updateMilestone` database function (updates updated_at, sets sync_status='pending')
-- [ ] Implement `deleteMilestone` database function (soft delete with deleted_at)
-- [ ] Implement `getActivitiesCountByMilestone` function
+- [x] Implement `createMilestone` database function (generates UUID, sets sync_status='pending')
+- [x] Implement `getMilestones` database function (excludes soft-deleted)
+- [x] Implement `getMilestoneById` database function
+- [x] Implement `updateMilestone` database function (updates updated_at, sets sync_status='pending')
+- [x] Implement `deleteMilestone` database function (soft delete with deleted_at)
+- [x] Implement `getActivitiesCountByMilestone` function
 
 ### 2.2 Milestone List Screen
-- [ ] Create MilestoneListScreen component
-- [ ] Create MilestoneCard component
-- [ ] Display milestone name, dates, days remaining
-- [ ] Display activity count per milestone
-- [ ] Add FAB button to create new milestone
-- [ ] Implement pull-to-refresh
-- [ ] Handle empty state (no milestones)
+- [x] Create MilestoneListScreen component
+- [x] Create MilestoneCard component
+- [x] Display milestone name, dates, days remaining
+- [x] Display activity count per milestone
+- [x] Add FAB button to create new milestone
+- [x] Implement pull-to-refresh
+- [x] Handle empty state (no milestones)
 
 ### 2.3 Create/Edit Milestone Screen
-- [ ] Create MilestoneFormScreen component
-- [ ] Add name input field with validation
-- [ ] Add start date picker
-- [ ] Add end date picker (optional)
-- [ ] Implement form validation (name required, dates valid)
-- [ ] Handle create mode vs edit mode
-- [ ] Save milestone to database
-- [ ] Navigate back on success
+- [x] Create MilestoneFormScreen component
+- [x] Add name input field with validation
+- [x] Add start date picker
+- [x] Add end date picker (optional)
+- [x] Implement form validation (name required, dates valid)
+- [x] Handle create mode vs edit mode
+- [x] Save milestone to database
+- [x] Navigate back on success
 
 ### 2.4 Milestone Detail Screen
-- [ ] Create MilestoneDetailScreen component
-- [ ] Display milestone information
-- [ ] Show list of associated activities
-- [ ] Add edit button (navigate to form)
-- [ ] Add delete button with confirmation dialog
-- [ ] Calculate and display progress metrics
+- [x] Create MilestoneDetailScreen component
+- [x] Display milestone information
+- [x] Show list of associated activities
+- [x] Add edit button (navigate to form)
+- [x] Add delete button with confirmation dialog
+- [x] Calculate and display progress metrics
 
 ---
 
 ## Phase 3: Activity Management (MVP)
 
 ### 3.1 Activity CRUD Operations
-- [ ] Implement `createActivity` database function
-- [ ] Implement `getActivitiesByMilestone` database function
-- [ ] Implement `getActivityById` database function
-- [ ] Implement `updateActivity` database function
-- [ ] Implement `deleteActivity` database function (soft delete)
-- [ ] Implement `getActivitiesByScheduleDay` function (for daily view)
+- [x] Implement `createActivity` database function
+- [x] Implement `getActivitiesByMilestone` database function
+- [x] Implement `getActivityById` database function
+- [x] Implement `updateActivity` database function
+- [x] Implement `deleteActivity` database function (soft delete)
+- [x] Implement `getActivitiesByScheduleDay` function (for daily view)
 
 ### 3.2 Activity List Screen
-- [ ] Create ActivityListScreen component
-- [ ] Create ActivityCard component
-- [ ] Display activity name, unit type, target
-- [ ] Display scheduled days as badges (M, T, W, T, F, S, S)
-- [ ] Add FAB button to create new activity
-- [ ] Filter activities by selected milestone
-- [ ] Handle empty state
+- [x] Create ActivityListScreen component
+- [x] Create ActivityCard component
+- [x] Display activity name, unit type, target
+- [x] Display scheduled days as badges (M, T, W, T, F, S, S)
+- [x] Add FAB button to create new activity
+- [x] Filter activities by selected milestone
+- [x] Handle empty state
 
 ### 3.3 Create/Edit Activity Screen
-- [ ] Create ActivityFormScreen component
-- [ ] Add name input field
-- [ ] Create unit type selector (distance, time, reps, counter)
-- [ ] Add unit name input (km, minutes, reps, etc.)
-- [ ] Add target goal input (optional, numeric)
-- [ ] Create day-of-week multi-select component
-- [ ] Add milestone selector (if creating from general screen)
-- [ ] Implement form validation
-- [ ] Handle create mode vs edit mode
-- [ ] Save activity to database
+- [x] Create ActivityFormScreen component
+- [x] Add name input field
+- [x] Create unit type selector (distance, time, reps, counter)
+- [x] Add unit name input (km, minutes, reps, etc.)
+- [x] Add target goal input (optional, numeric)
+- [x] Create day-of-week multi-select component
+- [x] Add milestone selector (if creating from general screen)
+- [x] Implement form validation
+- [x] Handle create mode vs edit mode
+- [x] Save activity to database
 
 ### 3.4 Activity Detail Screen
-- [ ] Create ActivityDetailScreen component
-- [ ] Display full activity information
-- [ ] Show recent sessions for this activity
-- [ ] Link to full history for this activity
-- [ ] Add edit/delete actions
+- [x] Create ActivityDetailScreen component
+- [x] Display full activity information
+- [x] Show recent sessions for this activity
+- [x] Link to full history for this activity
+- [x] Add edit/delete actions
 
 ---
 
 ## Phase 4: Daily Tracking & Dashboard (MVP)
 
 ### 4.1 Session CRUD Operations
-- [ ] Implement `createSession` database function
-- [ ] Implement `getSessionsByDate` database function
-- [ ] Implement `getSessionsByActivity` database function
-- [ ] Implement `getSessionsByDateRange` database function
-- [ ] Implement `updateSession` database function
-- [ ] Implement `deleteSession` database function (soft delete)
+- [x] Implement `createSession` database function
+- [x] Implement `getSessionsByDate` database function
+- [x] Implement `getSessionsByActivity` database function
+- [x] Implement `getSessionsByDateRange` database function
+- [x] Implement `updateSession` database function
+- [x] Implement `deleteSession` database function (soft delete)
 
 ### 4.2 Dashboard / Home Screen
-- [ ] Create HomeScreen component
-- [ ] Create DashboardHeader component (milestone name, countdown)
-- [ ] Fetch today's scheduled activities
-- [ ] Create TodayActivityList component
-- [ ] Create TodayActivityCard component
-- [ ] Show activity name, target, completion status
-- [ ] Add quick complete toggle
-- [ ] Create DailyProgressBar component
-- [ ] Create StreakCounter component
-- [ ] Calculate current streak
+- [x] Create HomeScreen component
+- [x] Create DashboardHeader component (milestone name, countdown)
+- [x] Fetch today's scheduled activities
+- [x] Create TodayActivityList component
+- [x] Create TodayActivityCard component
+- [x] Show activity name, target, completion status
+- [x] Add quick complete toggle
+- [x] Create DailyProgressBar component
+- [x] Create StreakCounter component
+- [x] Calculate current streak
 
-### 4.3 Session Logging Modal
-- [ ] Create LogSessionModal component
-- [ ] Display activity name and target goal
-- [ ] Add "Mark as completed" toggle
-- [ ] Create dynamic input based on unit type:
-  - [ ] Distance input (numeric, km)
-  - [ ] Time input (hours:minutes picker)
-  - [ ] Reps input (numeric)
-  - [ ] Counter input (numeric)
-- [ ] Add optional notes text field
-- [ ] Implement save logic
-- [ ] Close modal on save
-- [ ] Update UI to reflect new session
+### 4.3 Session Logging Screen
+- [x] Create LogSessionScreen component
+- [x] Display activity name and target goal
+- [x] Add "Mark as completed" toggle
+- [x] Create dynamic input based on unit type:
+  - [x] Distance input (numeric, km)
+  - [x] Time input (numeric minutes)
+  - [x] Reps input (numeric)
+  - [x] Counter input (numeric)
+- [x] Add optional notes text field
+- [x] Implement save logic
+- [x] Navigate back on save
+- [x] Update UI to reflect new session
 
 ### 4.4 Date Navigation
-- [ ] Create DateSelector component
-- [ ] Allow navigating to past dates
-- [ ] Allow navigating to future dates (for planning)
-- [ ] Fetch activities and sessions for selected date
-- [ ] Show existing sessions for past dates
-- [ ] Allow editing past sessions
+- [x] Create DateSelector component
+- [x] Allow navigating to past dates
+- [x] Allow navigating to future dates (for planning)
+- [x] Fetch activities and sessions for selected date
+- [x] Show existing sessions for past dates
+- [x] Allow editing past sessions
 
 ---
 
 ## Phase 5: History Screen (MVP)
 
 ### 5.1 History Screen UI
-- [ ] Create HistoryScreen component
-- [ ] Create ActivityFilterDropdown component
-- [ ] Create DateRangePicker component
-- [ ] Create SessionListItem component
-- [ ] Display session date, activity, target, actual result
-- [ ] Show completion status indicator
-- [ ] Implement infinite scroll / pagination
+- [x] Create HistoryScreen component
+- [x] Create ActivityFilterDropdown component
+- [x] Create DateRangePicker component
+- [x] Create SessionListItem component
+- [x] Display session date, activity, target, actual result
+- [x] Show completion status indicator
+- [x] Implement pagination support
 
 ### 5.2 History Functionality
-- [ ] Implement filter by activity
-- [ ] Implement filter by date range
-- [ ] Implement search by activity name
-- [ ] Add tap to view session detail
-- [ ] Add edit session capability
-- [ ] Add delete session with confirmation
-- [ ] Handle empty state (no sessions)
+- [x] Implement filter by activity
+- [x] Implement filter by date range
+- [x] Implement search by activity name
+- [x] Add tap to view session detail
+- [x] Add edit session capability
+- [x] Add delete session with confirmation
+- [x] Handle empty state (no sessions)
 
 ---
 
 ## Phase 6: Charts & Analytics (MVP)
 
 ### 6.1 Chart Data Services
-- [ ] Create analytics service (`client/src/services/analytics/index.ts`)
-- [ ] Implement `getVolumeOverTime` function (weekly/monthly totals)
-- [ ] Implement `getCompletionRate` function (completed/scheduled %)
-- [ ] Implement `getPerformanceTrend` function (average per session)
-- [ ] Implement `getStreakData` function
+- [x] Create analytics service (`client/src/services/analytics/index.ts`)
+- [x] Implement `getVolumeOverTime` function (weekly/monthly totals)
+- [x] Implement `getCompletionRate` function (completed/scheduled %)
+- [x] Implement `getPerformanceTrend` function (average per session)
+- [x] Implement `getStreakData` function
 
 ### 6.2 Charts Screen
-- [ ] Create ChartsScreen component
-- [ ] Create chart type tab selector
-- [ ] Create VolumeChart component using Victory Native
-- [ ] Create CompletionRateChart component
-- [ ] Add activity filter for charts
-- [ ] Add date range filter for charts
-- [ ] Create StreakDisplay component (prominent)
+- [x] Create ChartsScreen component
+- [x] Create chart type tab selector
+- [x] Create VolumeChart component (custom bar chart)
+- [x] Create CompletionRateChart component
+- [x] Add activity filter for charts
+- [x] Add date range filter for charts
+- [x] Create StreakDisplay component (prominent)
 
 ### 6.3 Chart Interactivity
-- [ ] Add touch interaction to charts (show values)
-- [ ] Implement weekly/monthly toggle
-- [ ] Add loading states for chart data
-- [ ] Handle empty chart states
+- [x] Add touch interaction to charts (show values)
+- [x] Implement time range toggle (7 days, 30 days, this month, 3 months)
+- [x] Add loading states for chart data
+- [x] Handle empty chart states
 
 ---
 
 ## Phase 7: Go Backend Setup
 
 ### 7.1 Project Initialization
-- [ ] Create server/ directory structure:
+- [x] Create server/ directory structure:
   ```
   server/
   ├── cmd/api/
@@ -278,172 +278,115 @@
   ├── migrations/
   └── pkg/
   ```
-- [ ] Initialize Go module (`cd server && go mod init github.com/yourusername/betterlife/server`)
-- [ ] Install Gin or Echo framework
-- [ ] Install PostgreSQL driver (pgx or lib/pq)
-- [ ] Install sqlx for database operations
-- [ ] Set up environment configuration (viper or envconfig)
-- [ ] Create server/Dockerfile for the API
-- [ ] Update root docker-compose.yml to include API service
-- [ ] Update root Makefile with server commands
+- [x] Initialize Go module (`go mod init github.com/betterlife/server`)
+- [x] Install Gin framework
+- [x] Install PostgreSQL driver (pgx)
+- [x] Set up environment configuration (viper)
+- [x] Create server/Dockerfile for the API
+- [x] Update root docker-compose.yml to include API service
 
 ### 7.2 Sqitch Setup & Migrations
-- [ ] Install Sqitch (`brew install sqitch`)
-- [ ] Initialize Sqitch project in server/migrations/ (`cd server/migrations && sqitch init betterlife --engine pg`)
-- [ ] Configure sqitch.conf with PostgreSQL settings
-- [ ] Create migration: `sqitch add 001-create-milestones`
-  ```sql
-  -- deploy/001-create-milestones.sql
-  CREATE TABLE milestones (
-    id SERIAL PRIMARY KEY,
-    device_token TEXT NOT NULL,
-    local_id UUID NOT NULL,
-    name TEXT NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    deleted_at TIMESTAMPTZ,
-    UNIQUE(device_token, local_id)
-  );
-  ```
-- [ ] Create migration: `sqitch add 002-create-activities`
-  ```sql
-  -- deploy/002-create-activities.sql
-  CREATE TABLE activities (
-    id SERIAL PRIMARY KEY,
-    device_token TEXT NOT NULL,
-    local_id UUID NOT NULL,
-    milestone_id INTEGER REFERENCES milestones(id),
-    milestone_local_id UUID NOT NULL,
-    name TEXT NOT NULL,
-    unit_type TEXT NOT NULL,
-    unit_name TEXT NOT NULL,
-    target_goal NUMERIC,
-    schedule_days INTEGER[] NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    deleted_at TIMESTAMPTZ,
-    UNIQUE(device_token, local_id)
-  );
-  ```
-- [ ] Create migration: `sqitch add 003-create-sessions`
-  ```sql
-  -- deploy/003-create-sessions.sql
-  CREATE TABLE sessions (
-    id SERIAL PRIMARY KEY,
-    device_token TEXT NOT NULL,
-    local_id UUID NOT NULL,
-    activity_id INTEGER REFERENCES activities(id),
-    activity_local_id UUID NOT NULL,
-    date DATE NOT NULL,
-    is_completed BOOLEAN DEFAULT FALSE,
-    actual_result NUMERIC,
-    target_goal NUMERIC,
-    notes TEXT,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    deleted_at TIMESTAMPTZ,
-    UNIQUE(device_token, local_id)
-  );
-  ```
-- [ ] Create migration: `sqitch add 004-create-indexes`
-- [ ] Write revert scripts for all migrations
-- [ ] Write verify scripts for all migrations
-- [ ] Test migrations: deploy, verify, revert, re-deploy
+- [x] Initialize Sqitch project in server/migrations/
+- [x] Configure sqitch.conf with PostgreSQL settings
+- [x] Create migration: 001-create-devices
+- [x] Create migration: 002-create-milestones
+- [x] Create migration: 003-create-activities
+- [x] Create migration: 004-create-sessions
+- [x] Write revert scripts for all migrations
+- [x] Write verify scripts for all migrations
 
 ### 7.3 Backend Project Structure
-- [ ] Create server/cmd/api/main.go (entry point)
-- [ ] Create server/internal/config (configuration loading)
-- [ ] Create server/internal/model (data structures)
-- [ ] Create server/internal/repository (database layer)
-- [ ] Create server/internal/service (business logic)
-- [ ] Create server/internal/handler (HTTP handlers)
-- [ ] Create server/internal/middleware (auth, logging, CORS)
-- [ ] Create server/pkg/response (standard API responses)
+- [x] Create server/cmd/api/main.go (entry point)
+- [x] Create server/internal/config (configuration loading)
+- [x] Create server/internal/model (data structures)
+- [x] Create server/internal/repository (database layer)
+- [x] Create server/internal/handler (HTTP handlers)
+- [x] Create server/internal/middleware (auth, logging, CORS)
+- [x] Create server/pkg/response (standard API responses)
 
 ### 7.4 Core API Endpoints
-- [ ] Implement health check endpoint (GET /health)
-- [ ] Implement device registration (POST /api/devices - generates token)
-- [ ] Implement milestones CRUD:
-  - [ ] POST /api/milestones
-  - [ ] GET /api/milestones
-  - [ ] GET /api/milestones/:id
-  - [ ] PUT /api/milestones/:id
-  - [ ] DELETE /api/milestones/:id
-- [ ] Implement activities CRUD:
-  - [ ] POST /api/activities
-  - [ ] GET /api/activities
-  - [ ] GET /api/activities/:id
-  - [ ] PUT /api/activities/:id
-  - [ ] DELETE /api/activities/:id
-- [ ] Implement sessions CRUD:
-  - [ ] POST /api/sessions
-  - [ ] GET /api/sessions
-  - [ ] GET /api/sessions/:id
-  - [ ] PUT /api/sessions/:id
-  - [ ] DELETE /api/sessions/:id
+- [x] Implement health check endpoint (GET /health)
+- [x] Implement device registration (POST /api/devices - generates token)
+- [x] Implement milestones CRUD:
+  - [x] POST /api/milestones
+  - [x] GET /api/milestones
+  - [x] GET /api/milestones/:id
+  - [x] PUT /api/milestones/:id
+  - [x] DELETE /api/milestones/:id
+- [x] Implement activities CRUD:
+  - [x] POST /api/activities
+  - [x] GET /api/activities
+  - [x] GET /api/activities/:id
+  - [x] PUT /api/activities/:id
+  - [x] DELETE /api/activities/:id
+- [x] Implement sessions CRUD:
+  - [x] POST /api/sessions
+  - [x] GET /api/sessions
+  - [x] GET /api/sessions/:id
+  - [x] PUT /api/sessions/:id
+  - [x] DELETE /api/sessions/:id
+- [x] Implement sync endpoints:
+  - [x] POST /api/sync/push
+  - [x] GET /api/sync/pull
 
 ### 7.5 Authentication Middleware
-- [ ] Create device token middleware
-- [ ] Validate token on protected routes
-- [ ] Extract device_token from Authorization header
-- [ ] Pass device_token to handlers via context
+- [x] Create device token middleware
+- [x] Validate token on protected routes
+- [x] Extract device_token from Authorization header
+- [x] Pass device_token to handlers via context
 
 ---
 
 ## Phase 8: Sync Implementation
 
 ### 8.1 Server Sync Endpoints
-- [ ] Create sync handler (server/internal/handler/sync.go)
-- [ ] Implement POST /api/sync/push
-  - [ ] Accept batch of changes (milestones, activities, sessions)
-  - [ ] Process creates: insert new records, return server_id
-  - [ ] Process updates: update existing records by local_id
-  - [ ] Process deletes: set deleted_at timestamp
-  - [ ] Return sync results with server_id mappings
-- [ ] Implement GET /api/sync/pull?since=timestamp
-  - [ ] Return all records updated since timestamp
-  - [ ] Include soft-deleted records (for client to delete locally)
-  - [ ] Support pagination for large datasets
+- [x] Create sync handler (server/internal/handler/sync.go)
+- [x] Implement POST /api/sync/push
+  - [x] Accept batch of changes (milestones, activities, sessions)
+  - [x] Process creates: insert new records, return server_id
+  - [x] Process updates: update existing records by local_id
+  - [x] Process deletes: set deleted_at timestamp
+  - [x] Return sync results with server_id mappings
+- [x] Implement GET /api/sync/pull?since=timestamp
+  - [x] Return all records updated since timestamp
+  - [x] Include soft-deleted records (for client to delete locally)
 
 ### 8.2 Client Sync Service
-- [ ] Create sync service (`client/src/services/sync/index.ts`)
-- [ ] Implement network status detection (NetInfo)
-- [ ] Implement `getPendingChanges` function (query sync_status='pending')
-- [ ] Implement `pushChanges` function
-  - [ ] Batch pending changes by entity type
-  - [ ] Send to POST /api/sync/push
-  - [ ] Update local records with server_id
-  - [ ] Set sync_status='synced'
-- [ ] Implement `pullChanges` function
-  - [ ] Call GET /api/sync/pull?since=lastSyncTime
-  - [ ] Merge server changes into local SQLite
-  - [ ] Handle conflicts (server wins by timestamp)
-  - [ ] Update lastSyncTime
-- [ ] Implement `fullSync` function (push then pull)
+- [x] Create sync service (`client/src/services/sync/index.ts`)
+- [x] Implement network status detection (NetInfo)
+- [x] Implement `getPendingChanges` function (query sync_status='pending')
+- [x] Implement `pushChanges` function
+  - [x] Batch pending changes by entity type
+  - [x] Send to POST /api/sync/push
+  - [x] Update local records with server_id
+  - [x] Set sync_status='synced'
+- [x] Implement `pullChanges` function
+  - [x] Call GET /api/sync/pull?since=lastSyncTime
+  - [x] Merge server changes into local SQLite
+  - [x] Handle conflicts (server wins by timestamp)
+  - [x] Update lastSyncTime
+- [x] Implement `fullSync` function (push then pull)
 
 ### 8.3 Sync Triggers
-- [ ] Trigger sync on app foreground (AppState listener)
-- [ ] Trigger sync on pull-to-refresh
-- [ ] Trigger sync after successful data modification (debounced)
-- [ ] Add manual sync button in settings
+- [x] Trigger sync on app foreground (AppState listener)
+- [x] Trigger sync on pull-to-refresh
+- [x] Trigger sync after successful data modification (debounced)
+- [x] Add manual sync via SyncStatusIndicator tap
 
 ### 8.4 Sync UI Feedback
-- [ ] Create SyncStatusIndicator component
-- [ ] Show "Syncing..." during sync
-- [ ] Show "Last synced: X minutes ago"
-- [ ] Show "Offline" when no network
-- [ ] Show sync error with retry option
+- [x] Create SyncStatusIndicator component
+- [x] Show "Syncing..." during sync
+- [x] Show "Last synced: X minutes ago"
+- [x] Show "Offline" when no network
+- [x] Show sync error with retry option
 
 ### 8.5 Client API Service
-- [ ] Create API service (`client/src/services/api/index.ts`)
-- [ ] Configure axios with base URL
-- [ ] Add device token to request headers
-- [ ] Implement device registration on first launch
-- [ ] Store device token securely (AsyncStorage)
-- [ ] Add request/response interceptors for error handling
-- [ ] Implement retry logic with exponential backoff
+- [x] Create API service (`client/src/services/api/index.ts`)
+- [x] Configure axios with base URL
+- [x] Add device token to request headers
+- [x] Implement device registration on first launch
+- [x] Store device token securely (AsyncStorage)
+- [x] Add request/response interceptors for error handling
 
 ---
 
