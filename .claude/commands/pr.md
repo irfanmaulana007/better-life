@@ -21,7 +21,13 @@ Create a pull request to main branch with a detailed description.
    git diff main...HEAD
    ```
 
-5. Analyze ALL commits and the full diff thoroughly, then generate a well-structured PR description:
+5. Determine the appropriate label based on the changes:
+   - `feature` — New functionality or capabilities
+   - `enhancement` — Improvements to existing features
+   - `bug` — Bug fixes
+   - `documentation` — Documentation-only changes
+
+6. Analyze ALL commits and the full diff thoroughly, then generate a well-structured PR description:
 
    **Title Guidelines:**
    - Use conventional commit format: `feat:`, `fix:`, `refactor:`, `chore:`, `docs:`
@@ -54,21 +60,21 @@ Create a pull request to main branch with a detailed description.
    - **Screenshots**: For UI changes, mention screenshots should be added
    - **Related Issues**: Reference related issues with `Fixes #123` or `Related to #456`
 
-6. Show the user the generated PR title and description.
+7. Show the user the generated PR title, description, and selected label.
 
-7. If there are uncommitted changes, commit them first:
+8. If there are uncommitted changes, commit them first:
    ```bash
    git add -A
    git commit -m "<conventional commit message>"
    ```
 
-8. Push the branch and create the PR:
+9. Push the branch and create the PR with label:
    ```bash
    git push -u origin <branch-name>
-   gh pr create --title "<title>" --body "<body>"
+   gh pr create --title "<title>" --body "<body>" --label "<label>"
    ```
 
-9. Return the PR URL to the user.
+10. Return the PR URL to the user.
 
 ## PR Description Template
 
@@ -100,3 +106,13 @@ Generated with [Claude Code](https://claude.ai/code)
 - Mention any breaking changes prominently at the TOP of the description
 - For UI changes, suggest adding screenshots
 - Keep descriptions scannable - use formatting (bold, code blocks) effectively
+
+## Labels
+Choose exactly one label for each PR:
+
+| Label | When to Use |
+|-------|-------------|
+| `feature` | New functionality that didn't exist before |
+| `enhancement` | Improvements to existing features |
+| `bug` | Fixing broken functionality |
+| `documentation` | Documentation-only changes (README, docs/, comments) |
