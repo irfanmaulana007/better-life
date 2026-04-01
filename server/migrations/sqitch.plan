@@ -1,0 +1,7 @@
+%syntax-version=1.0.0
+%project=betterlife
+
+001-create-devices 2026-04-01T05:44:14Z Irfan Maulana <irfanmaulana695@gmail.com> # Create devices table
+002-create-milestones 2026-04-01T05:44:23Z Irfan Maulana <irfanmaulana695@gmail.com> # Create milestones table
+003-create-activities 2026-04-01T05:44:46Z Irfan Maulana <irfanmaulana695@gmail.com> # Create activities table
+004-create-sessions 2026-04-01T05:45:04Z Irfan Maulana <irfanmaulana695@gmail.com> # Create sessions table

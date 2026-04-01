@@ -270,7 +270,7 @@
 ## Phase 7: Go Backend Setup
 
 ### 7.1 Project Initialization
-- [ ] Create server/ directory structure:
+- [x] Create server/ directory structure:
   ```
   server/
   ├── cmd/api/
@@ -278,117 +278,62 @@
   ├── migrations/
   └── pkg/
   ```
-- [ ] Initialize Go module (`cd server && go mod init github.com/yourusername/betterlife/server`)
-- [ ] Install Gin or Echo framework
-- [ ] Install PostgreSQL driver (pgx or lib/pq)
-- [ ] Install sqlx for database operations
-- [ ] Set up environment configuration (viper or envconfig)
-- [ ] Create server/Dockerfile for the API
-- [ ] Update root docker-compose.yml to include API service
-- [ ] Update root Makefile with server commands
+- [x] Initialize Go module (`go mod init github.com/betterlife/server`)
+- [x] Install Gin framework
+- [x] Install PostgreSQL driver (pgx)
+- [x] Set up environment configuration (viper)
+- [x] Create server/Dockerfile for the API
+- [x] Update root docker-compose.yml to include API service
 
 ### 7.2 Sqitch Setup & Migrations
-- [ ] Install Sqitch (`brew install sqitch`)
-- [ ] Initialize Sqitch project in server/migrations/ (`cd server/migrations && sqitch init betterlife --engine pg`)
-- [ ] Configure sqitch.conf with PostgreSQL settings
-- [ ] Create migration: `sqitch add 001-create-milestones`
-  ```sql
-  -- deploy/001-create-milestones.sql
-  CREATE TABLE milestones (
-    id SERIAL PRIMARY KEY,
-    device_token TEXT NOT NULL,
-    local_id UUID NOT NULL,
-    name TEXT NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    deleted_at TIMESTAMPTZ,
-    UNIQUE(device_token, local_id)
-  );
-  ```
-- [ ] Create migration: `sqitch add 002-create-activities`
-  ```sql
-  -- deploy/002-create-activities.sql
-  CREATE TABLE activities (
-    id SERIAL PRIMARY KEY,
-    device_token TEXT NOT NULL,
-    local_id UUID NOT NULL,
-    milestone_id INTEGER REFERENCES milestones(id),
-    milestone_local_id UUID NOT NULL,
-    name TEXT NOT NULL,
-    unit_type TEXT NOT NULL,
-    unit_name TEXT NOT NULL,
-    target_goal NUMERIC,
-    schedule_days INTEGER[] NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    deleted_at TIMESTAMPTZ,
-    UNIQUE(device_token, local_id)
-  );
-  ```
-- [ ] Create migration: `sqitch add 003-create-sessions`
-  ```sql
-  -- deploy/003-create-sessions.sql
-  CREATE TABLE sessions (
-    id SERIAL PRIMARY KEY,
-    device_token TEXT NOT NULL,
-    local_id UUID NOT NULL,
-    activity_id INTEGER REFERENCES activities(id),
-    activity_local_id UUID NOT NULL,
-    date DATE NOT NULL,
-    is_completed BOOLEAN DEFAULT FALSE,
-    actual_result NUMERIC,
-    target_goal NUMERIC,
-    notes TEXT,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    deleted_at TIMESTAMPTZ,
-    UNIQUE(device_token, local_id)
-  );
-  ```
-- [ ] Create migration: `sqitch add 004-create-indexes`
-- [ ] Write revert scripts for all migrations
-- [ ] Write verify scripts for all migrations
-- [ ] Test migrations: deploy, verify, revert, re-deploy
+- [x] Initialize Sqitch project in server/migrations/
+- [x] Configure sqitch.conf with PostgreSQL settings
+- [x] Create migration: 001-create-devices
+- [x] Create migration: 002-create-milestones
+- [x] Create migration: 003-create-activities
+- [x] Create migration: 004-create-sessions
+- [x] Write revert scripts for all migrations
+- [x] Write verify scripts for all migrations
 
 ### 7.3 Backend Project Structure
-- [ ] Create server/cmd/api/main.go (entry point)
-- [ ] Create server/internal/config (configuration loading)
-- [ ] Create server/internal/model (data structures)
-- [ ] Create server/internal/repository (database layer)
-- [ ] Create server/internal/service (business logic)
-- [ ] Create server/internal/handler (HTTP handlers)
-- [ ] Create server/internal/middleware (auth, logging, CORS)
-- [ ] Create server/pkg/response (standard API responses)
+- [x] Create server/cmd/api/main.go (entry point)
+- [x] Create server/internal/config (configuration loading)
+- [x] Create server/internal/model (data structures)
+- [x] Create server/internal/repository (database layer)
+- [x] Create server/internal/handler (HTTP handlers)
+- [x] Create server/internal/middleware (auth, logging, CORS)
+- [x] Create server/pkg/response (standard API responses)
 
 ### 7.4 Core API Endpoints
-- [ ] Implement health check endpoint (GET /health)
-- [ ] Implement device registration (POST /api/devices - generates token)
-- [ ] Implement milestones CRUD:
-  - [ ] POST /api/milestones
-  - [ ] GET /api/milestones
-  - [ ] GET /api/milestones/:id
-  - [ ] PUT /api/milestones/:id
-  - [ ] DELETE /api/milestones/:id
-- [ ] Implement activities CRUD:
-  - [ ] POST /api/activities
-  - [ ] GET /api/activities
-  - [ ] GET /api/activities/:id
-  - [ ] PUT /api/activities/:id
-  - [ ] DELETE /api/activities/:id
-- [ ] Implement sessions CRUD:
-  - [ ] POST /api/sessions
-  - [ ] GET /api/sessions
-  - [ ] GET /api/sessions/:id
-  - [ ] PUT /api/sessions/:id
-  - [ ] DELETE /api/sessions/:id
+- [x] Implement health check endpoint (GET /health)
+- [x] Implement device registration (POST /api/devices - generates token)
+- [x] Implement milestones CRUD:
+  - [x] POST /api/milestones
+  - [x] GET /api/milestones
+  - [x] GET /api/milestones/:id
+  - [x] PUT /api/milestones/:id
+  - [x] DELETE /api/milestones/:id
+- [x] Implement activities CRUD:
+  - [x] POST /api/activities
+  - [x] GET /api/activities
+  - [x] GET /api/activities/:id
+  - [x] PUT /api/activities/:id
+  - [x] DELETE /api/activities/:id
+- [x] Implement sessions CRUD:
+  - [x] POST /api/sessions
+  - [x] GET /api/sessions
+  - [x] GET /api/sessions/:id
+  - [x] PUT /api/sessions/:id
+  - [x] DELETE /api/sessions/:id
+- [x] Implement sync endpoints:
+  - [x] POST /api/sync/push
+  - [x] GET /api/sync/pull
 
 ### 7.5 Authentication Middleware
-- [ ] Create device token middleware
-- [ ] Validate token on protected routes
-- [ ] Extract device_token from Authorization header
-- [ ] Pass device_token to handlers via context
+- [x] Create device token middleware
+- [x] Validate token on protected routes
+- [x] Extract device_token from Authorization header
+- [x] Pass device_token to handlers via context
 
 ---
 

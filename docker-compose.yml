@@ -18,5 +18,26 @@ services:
       timeout: 5s
       retries: 5
 
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: betterlife-api
+    ports:
+      - "8080:8080"
+    environment:
+      BETTERLIFE_SERVER_PORT: "8080"
+      BETTERLIFE_SERVER_MODE: "release"
+      BETTERLIFE_DATABASE_HOST: postgres
+      BETTERLIFE_DATABASE_PORT: "5432"
+      BETTERLIFE_DATABASE_USER: betterlife
+      BETTERLIFE_DATABASE_PASSWORD: betterlife_dev
+      BETTERLIFE_DATABASE_DBNAME: betterlife
+      BETTERLIFE_DATABASE_SSLMODE: disable
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   postgres_data:
