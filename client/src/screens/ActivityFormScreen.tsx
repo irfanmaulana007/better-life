@@ -13,6 +13,7 @@ import {
   FlatList,
 } from 'react-native';
 import { useActivityStore, useMilestoneStore } from '@store';
+import { useSync } from '@hooks';
 import type { UnitType, DayOfWeek } from '@types/entities';
 import type { ActivityStackScreenProps } from '@types/navigation';
 
@@ -38,6 +39,8 @@ const DAYS_OF_WEEK: { value: DayOfWeek; label: string; short: string }[] = [
 export default function ActivityFormScreen({ navigation, route }: Props) {
   const { localId, milestoneLocalId: initialMilestoneId } = route.params || {};
   const isEditing = !!localId;
+
+  const { triggerSync } = useSync();
 
   const { fetchActivityById, addActivity, editActivity, isLoading } = useActivityStore();
   const { milestones, fetchMilestones } = useMilestoneStore();
@@ -121,6 +124,9 @@ export default function ActivityFormScreen({ navigation, route }: Props) {
         await addActivity(data);
       }
 
+      // Trigger sync
+      triggerSync();
+
       navigation.goBack();
     } catch (error) {
       Alert.alert('Error', 'Failed to save activity. Please try again.');
@@ -137,6 +143,7 @@ export default function ActivityFormScreen({ navigation, route }: Props) {
     addActivity,
     editActivity,
     navigation,
+    triggerSync,
   ]);
 
   useEffect(() => {

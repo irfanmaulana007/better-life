@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { format } from 'date-fns';
 import { useActivityStore, useSessionStore, useMilestoneStore } from '@store';
+import { useSync } from '@hooks';
 import type { Activity, Session } from '@types/entities';
 import type { HomeStackScreenProps } from '@types/navigation';
 
@@ -27,6 +28,8 @@ const UNIT_TYPE_PLACEHOLDERS = {
 
 export default function LogSessionScreen({ navigation, route }: Props) {
   const { activityLocalId, date } = route.params;
+
+  const { triggerSync } = useSync();
 
   const { fetchActivityById } = useActivityStore();
   const { fetchMilestoneById } = useMilestoneStore();
@@ -88,6 +91,9 @@ export default function LogSessionScreen({ navigation, route }: Props) {
         await addSession(sessionData);
       }
 
+      // Trigger sync
+      triggerSync();
+
       navigation.goBack();
     } catch (error) {
       Alert.alert('Error', 'Failed to save session. Please try again.');
@@ -119,6 +125,8 @@ export default function LogSessionScreen({ navigation, route }: Props) {
           onPress: async () => {
             const success = await removeSession(existingSession.localId);
             if (success) {
+              // Trigger sync
+              triggerSync();
               navigation.goBack();
             } else {
               Alert.alert('Error', 'Failed to delete session');

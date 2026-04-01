@@ -11,7 +11,8 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import { format, addDays, subDays, isToday, isFuture } from 'date-fns';
 import { useActivityStore, useSessionStore, useMilestoneStore } from '@store';
-import { EmptyState } from '@components';
+import { EmptyState, SyncStatusIndicator } from '@components';
+import { useSync } from '@hooks';
 import type { Activity, Session } from '@types/entities';
 import type { HomeStackScreenProps } from '@types/navigation';
 
@@ -20,6 +21,8 @@ type Props = HomeStackScreenProps<'Home'>;
 export default function HomeScreen({ navigation }: Props) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [refreshing, setRefreshing] = useState(false);
+
+  const { triggerSync, manualSync } = useSync();
 
   const { todayActivities, fetchTodayActivities, fetchActivitiesByScheduleDay } =
     useActivityStore();
@@ -86,6 +89,7 @@ export default function HomeScreen({ navigation }: Props) {
 
   const handleRefresh = async () => {
     setRefreshing(true);
+    await manualSync();
     await loadData();
     setRefreshing(false);
   };
@@ -142,6 +146,9 @@ export default function HomeScreen({ navigation }: Props) {
     await fetchSessionsByDate(dateString);
     await fetchStreak();
     await fetchCompletionStats(dateString);
+
+    // Trigger sync
+    triggerSync();
   };
 
   const handleLogSession = (activity: Activity) => {
@@ -201,6 +208,8 @@ export default function HomeScreen({ navigation }: Props) {
         >
           <Text style={styles.dateArrowText}>›</Text>
         </TouchableOpacity>
+
+        <SyncStatusIndicator />
       </View>
 
       {/* Stats Row */}

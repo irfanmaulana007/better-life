@@ -13,6 +13,7 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
 import { useMilestoneStore } from '@store';
+import { useSync } from '@hooks';
 import type { MilestoneStackScreenProps } from '@types/navigation';
 
 type Props = MilestoneStackScreenProps<'MilestoneForm'>;
@@ -20,6 +21,8 @@ type Props = MilestoneStackScreenProps<'MilestoneForm'>;
 export default function MilestoneFormScreen({ navigation, route }: Props) {
   const { localId } = route.params || {};
   const isEditing = !!localId;
+
+  const { triggerSync } = useSync();
 
   const { fetchMilestoneById, addMilestone, editMilestone, isLoading } =
     useMilestoneStore();
@@ -81,6 +84,9 @@ export default function MilestoneFormScreen({ navigation, route }: Props) {
       } else {
         await addMilestone(data);
       }
+
+      // Trigger sync
+      triggerSync();
 
       navigation.goBack();
     } catch (error) {

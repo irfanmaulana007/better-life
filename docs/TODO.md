@@ -340,55 +340,53 @@
 ## Phase 8: Sync Implementation
 
 ### 8.1 Server Sync Endpoints
-- [ ] Create sync handler (server/internal/handler/sync.go)
-- [ ] Implement POST /api/sync/push
-  - [ ] Accept batch of changes (milestones, activities, sessions)
-  - [ ] Process creates: insert new records, return server_id
-  - [ ] Process updates: update existing records by local_id
-  - [ ] Process deletes: set deleted_at timestamp
-  - [ ] Return sync results with server_id mappings
-- [ ] Implement GET /api/sync/pull?since=timestamp
-  - [ ] Return all records updated since timestamp
-  - [ ] Include soft-deleted records (for client to delete locally)
-  - [ ] Support pagination for large datasets
+- [x] Create sync handler (server/internal/handler/sync.go)
+- [x] Implement POST /api/sync/push
+  - [x] Accept batch of changes (milestones, activities, sessions)
+  - [x] Process creates: insert new records, return server_id
+  - [x] Process updates: update existing records by local_id
+  - [x] Process deletes: set deleted_at timestamp
+  - [x] Return sync results with server_id mappings
+- [x] Implement GET /api/sync/pull?since=timestamp
+  - [x] Return all records updated since timestamp
+  - [x] Include soft-deleted records (for client to delete locally)
 
 ### 8.2 Client Sync Service
-- [ ] Create sync service (`client/src/services/sync/index.ts`)
-- [ ] Implement network status detection (NetInfo)
-- [ ] Implement `getPendingChanges` function (query sync_status='pending')
-- [ ] Implement `pushChanges` function
-  - [ ] Batch pending changes by entity type
-  - [ ] Send to POST /api/sync/push
-  - [ ] Update local records with server_id
-  - [ ] Set sync_status='synced'
-- [ ] Implement `pullChanges` function
-  - [ ] Call GET /api/sync/pull?since=lastSyncTime
-  - [ ] Merge server changes into local SQLite
-  - [ ] Handle conflicts (server wins by timestamp)
-  - [ ] Update lastSyncTime
-- [ ] Implement `fullSync` function (push then pull)
+- [x] Create sync service (`client/src/services/sync/index.ts`)
+- [x] Implement network status detection (NetInfo)
+- [x] Implement `getPendingChanges` function (query sync_status='pending')
+- [x] Implement `pushChanges` function
+  - [x] Batch pending changes by entity type
+  - [x] Send to POST /api/sync/push
+  - [x] Update local records with server_id
+  - [x] Set sync_status='synced'
+- [x] Implement `pullChanges` function
+  - [x] Call GET /api/sync/pull?since=lastSyncTime
+  - [x] Merge server changes into local SQLite
+  - [x] Handle conflicts (server wins by timestamp)
+  - [x] Update lastSyncTime
+- [x] Implement `fullSync` function (push then pull)
 
 ### 8.3 Sync Triggers
-- [ ] Trigger sync on app foreground (AppState listener)
-- [ ] Trigger sync on pull-to-refresh
-- [ ] Trigger sync after successful data modification (debounced)
-- [ ] Add manual sync button in settings
+- [x] Trigger sync on app foreground (AppState listener)
+- [x] Trigger sync on pull-to-refresh
+- [x] Trigger sync after successful data modification (debounced)
+- [x] Add manual sync via SyncStatusIndicator tap
 
 ### 8.4 Sync UI Feedback
-- [ ] Create SyncStatusIndicator component
-- [ ] Show "Syncing..." during sync
-- [ ] Show "Last synced: X minutes ago"
-- [ ] Show "Offline" when no network
-- [ ] Show sync error with retry option
+- [x] Create SyncStatusIndicator component
+- [x] Show "Syncing..." during sync
+- [x] Show "Last synced: X minutes ago"
+- [x] Show "Offline" when no network
+- [x] Show sync error with retry option
 
 ### 8.5 Client API Service
-- [ ] Create API service (`client/src/services/api/index.ts`)
-- [ ] Configure axios with base URL
-- [ ] Add device token to request headers
-- [ ] Implement device registration on first launch
-- [ ] Store device token securely (AsyncStorage)
-- [ ] Add request/response interceptors for error handling
-- [ ] Implement retry logic with exponential backoff
+- [x] Create API service (`client/src/services/api/index.ts`)
+- [x] Configure axios with base URL
+- [x] Add device token to request headers
+- [x] Implement device registration on first launch
+- [x] Store device token securely (AsyncStorage)
+- [x] Add request/response interceptors for error handling
 
 ---
 
