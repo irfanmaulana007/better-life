@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useActivityStore, useMilestoneStore } from '@store';
 import { useSync, useTheme } from '@hooks';
+import { Icon } from '@components';
 import type { UnitType, DayOfWeek } from '@types/entities';
 import type { ActivityStackScreenProps } from '@types/navigation';
 
@@ -229,7 +230,7 @@ export default function ActivityFormScreen({ navigation, route }: Props) {
                 {item.name}
               </Text>
               {milestoneLocalId === item.localId && (
-                <Text style={[styles.checkmark, { color: theme.colors.primary }]}>✓</Text>
+                <Icon name="check" size={18} color={theme.colors.primary} />
               )}
             </TouchableOpacity>
           )}

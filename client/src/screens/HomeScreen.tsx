@@ -10,7 +10,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import { format, addDays, subDays, isToday, isFuture } from 'date-fns';
 import { useActivityStore, useSessionStore, useMilestoneStore } from '@store';
-import { EmptyState, SyncStatusIndicator, Loading } from '@components';
+import { EmptyState, SyncStatusIndicator, Loading, Icon } from '@components';
 import { useSync, useTheme } from '@hooks';
 import type { Activity, Session } from '@types/entities';
 import type { HomeStackScreenProps } from '@types/navigation';
@@ -194,7 +194,7 @@ export default function HomeScreen({ navigation }: Props) {
           style={styles.dateArrow}
           onPress={() => handleDateChange('prev')}
         >
-          <Text style={[styles.dateArrowText, { color: theme.colors.primary }]}>‹</Text>
+          <Icon name="chevron-left" size={24} color={theme.colors.primary} />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.dateCenter} onPress={handleGoToToday}>
@@ -206,7 +206,7 @@ export default function HomeScreen({ navigation }: Props) {
           style={styles.dateArrow}
           onPress={() => handleDateChange('next')}
         >
-          <Text style={[styles.dateArrowText, { color: theme.colors.primary }]}>›</Text>
+          <Icon name="chevron-right" size={24} color={theme.colors.primary} />
         </TouchableOpacity>
 
         <SyncStatusIndicator />
@@ -252,7 +252,7 @@ export default function HomeScreen({ navigation }: Props) {
         {dayActivities.length === 0 ? (
           <View style={styles.emptyContainer}>
             <EmptyState
-              icon="📅"
+              icon="calendar"
               title="No Activities Scheduled"
               message={
                 isToday(selectedDate)
@@ -285,7 +285,7 @@ export default function HomeScreen({ navigation }: Props) {
                   ]}
                   onPress={() => handleToggleComplete(activity)}
                 >
-                  {isCompleted && <Text style={styles.checkmark}>✓</Text>}
+                  {isCompleted && <Icon name="check" size={16} color="#fff" />}
                 </TouchableOpacity>
 
                 <View style={styles.activityInfo}>

@@ -6,3 +6,4 @@ export { SyncStatusIndicator } from './SyncStatusIndicator';
 export { Loading } from './Loading';
 export { ErrorMessage } from './ErrorMessage';
 export { ConfirmDialog } from './ConfirmDialog';
+export { Icon, type IconName } from './Icon';

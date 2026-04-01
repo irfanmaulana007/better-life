@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { format } from 'date-fns';
 import { useActivityStore, useMilestoneStore, useSessionStore } from '@store';
-import { EmptyState, Loading } from '@components';
+import { EmptyState, Loading, Icon } from '@components';
 import { useTheme } from '@hooks';
 import type { Activity, Session } from '@types/entities';
 import type { ActivityStackScreenProps } from '@types/navigation';
@@ -107,7 +107,7 @@ export default function ActivityDetailScreen({ navigation, route }: Props) {
     return (
       <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
         <EmptyState
-          icon="❌"
+          icon="x"
           title="Activity Not Found"
           message="This activity may have been deleted."
         />
@@ -236,16 +236,11 @@ export default function ActivityDetailScreen({ navigation, route }: Props) {
                     : { backgroundColor: theme.colors.border },
                 ]}
               >
-                <Text
-                  style={[
-                    styles.sessionStatusText,
-                    session.isCompleted
-                      ? { color: theme.colors.success }
-                      : { color: theme.colors.textSecondary },
-                  ]}
-                >
-                  {session.isCompleted ? '✓' : '○'}
-                </Text>
+                <Icon
+                  name={session.isCompleted ? 'check' : 'clock'}
+                  size={14}
+                  color={session.isCompleted ? theme.colors.success : theme.colors.textSecondary}
+                />
               </View>
             </View>
           ))

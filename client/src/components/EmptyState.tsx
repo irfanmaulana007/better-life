@@ -1,15 +1,18 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { Icon, type IconName } from './Icon';
 
 interface EmptyStateProps {
   title: string;
   message: string;
-  icon?: string;
+  icon?: IconName;
 }
 
-export default function EmptyState({ title, message, icon = '📭' }: EmptyStateProps) {
+export default function EmptyState({ title, message, icon = 'inbox' }: EmptyStateProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.icon}>{icon}</Text>
+      <View style={styles.iconContainer}>
+        <Icon name={icon} size={64} color="#8E8E93" strokeWidth={1.5} />
+      </View>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.message}>{message}</Text>
     </View>
@@ -23,8 +26,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 32,
   },
-  icon: {
-    fontSize: 64,
+  iconContainer: {
     marginBottom: 16,
   },
   title: {

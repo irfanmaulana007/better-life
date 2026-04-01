@@ -13,7 +13,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import { format, subDays, startOfMonth, endOfMonth, subMonths } from 'date-fns';
 import { useSessionStore, useActivityStore, useMilestoneStore } from '@store';
-import { EmptyState } from '@components';
+import { EmptyState, Icon } from '@components';
 import type { Session, Activity } from '@types/entities';
 import type { HistoryStackScreenProps } from '@types/navigation';
 
@@ -183,9 +183,11 @@ export default function HistoryScreen({ navigation }: Props) {
             session.isCompleted ? styles.completed : styles.incomplete,
           ]}
         >
-          <Text style={styles.completionIcon}>
-            {session.isCompleted ? '✓' : '○'}
-          </Text>
+          <Icon
+            name={session.isCompleted ? 'check' : 'clock'}
+            size={16}
+            color={session.isCompleted ? '#34C759' : '#8E8E93'}
+          />
         </View>
 
         <View style={styles.sessionInfo}>
@@ -202,7 +204,7 @@ export default function HistoryScreen({ navigation }: Props) {
         </View>
 
         <View style={styles.chevron}>
-          <Text style={styles.chevronText}>›</Text>
+          <Icon name="chevron-right" size={20} color="#C7C7CC" />
         </View>
       </TouchableOpacity>
     );
@@ -254,7 +256,7 @@ export default function HistoryScreen({ navigation }: Props) {
             >
               All Activities
             </Text>
-            {!selectedActivityId && <Text style={styles.checkmark}>✓</Text>}
+            {!selectedActivityId && <Icon name="check" size={16} color="#007AFF" />}
           </TouchableOpacity>
 
           {activities.map(activity => (
@@ -284,7 +286,7 @@ export default function HistoryScreen({ navigation }: Props) {
                 </Text>
               </View>
               {selectedActivityId === activity.localId && (
-                <Text style={styles.checkmark}>✓</Text>
+                <Icon name="check" size={16} color="#007AFF" />
               )}
             </TouchableOpacity>
           ))}
@@ -330,7 +332,7 @@ export default function HistoryScreen({ navigation }: Props) {
                 {range.label}
               </Text>
               {selectedDateRange === range.value && (
-                <Text style={styles.checkmark}>✓</Text>
+                <Icon name="check" size={16} color="#007AFF" />
               )}
             </TouchableOpacity>
           ))}
@@ -401,7 +403,7 @@ export default function HistoryScreen({ navigation }: Props) {
         ListEmptyComponent={
           !isLoading ? (
             <EmptyState
-              icon="📜"
+              icon="scroll"
               title="No Sessions Found"
               message={
                 searchQuery || selectedActivityId || selectedDateRange !== 'all'
