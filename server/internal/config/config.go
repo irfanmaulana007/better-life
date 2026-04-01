@@ -2,8 +2,10 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
+	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 )
 
@@ -34,6 +36,13 @@ func (d DatabaseConfig) DSN() string {
 }
 
 func Load() (*Config, error) {
+	// Load .env file if it exists (optional, won't error if missing)
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found, using environment variables and defaults")
+	} else {
+		log.Println("Loaded configuration from .env file")
+	}
+
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(".")

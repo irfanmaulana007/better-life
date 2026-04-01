@@ -1,10 +1,73 @@
-import axios, { AxiosInstance, AxiosError } from 'axios';
+import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_BASE_URL as ENV_API_BASE_URL, API_LOGGING_ENABLED } from '@env';
 
 const DEVICE_TOKEN_KEY = 'device_token';
-const API_BASE_URL = __DEV__
+
+// API Base URL - use env variable or fallback
+const API_BASE_URL = ENV_API_BASE_URL || (__DEV__
   ? 'http://localhost:8080'
-  : 'https://api.betterlife.app'; // Update with production URL
+  : 'https://api.betterlife.app');
+
+// API Logging Configuration from .env
+// Env variables are strings, so we compare with 'true'
+let apiLoggingEnabled = API_LOGGING_ENABLED === 'true';
+
+// Runtime toggle for API logging
+export function setApiLogging(enabled: boolean): void {
+  apiLoggingEnabled = enabled;
+  console.log(`API Logging ${enabled ? 'enabled' : 'disabled'}`);
+}
+
+export function isApiLoggingEnabled(): boolean {
+  return apiLoggingEnabled;
+}
+
+// Logger utility
+const apiLogger = {
+  request: (config: InternalAxiosRequestConfig) => {
+    if (!apiLoggingEnabled) return;
+
+    const { method, url, params, data } = config;
+    console.log('\n📤 API REQUEST');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log(`Method: ${method?.toUpperCase()}`);
+    console.log(`URL: ${config.baseURL}${url}`);
+    if (params && Object.keys(params).length > 0) {
+      console.log('Params:', JSON.stringify(params, null, 2));
+    }
+    if (data) {
+      console.log('Body:', JSON.stringify(data, null, 2));
+    }
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+  },
+
+  response: (response: AxiosResponse) => {
+    if (!apiLoggingEnabled) return;
+
+    const { status, statusText, config, data } = response;
+    console.log('\n📥 API RESPONSE');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log(`URL: ${config.url}`);
+    console.log(`Status: ${status} ${statusText}`);
+    console.log('Data:', JSON.stringify(data, null, 2));
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+  },
+
+  error: (error: AxiosError) => {
+    if (!apiLoggingEnabled) return;
+
+    console.log('\n❌ API ERROR');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log(`URL: ${error.config?.url}`);
+    console.log(`Status: ${error.response?.status || 'No response'}`);
+    console.log(`Message: ${error.message}`);
+    if (error.response?.data) {
+      console.log('Error Data:', JSON.stringify(error.response.data, null, 2));
+    }
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+  },
+};
 
 // Create axios instance
 const api: AxiosInstance = axios.create({
@@ -15,24 +78,30 @@ const api: AxiosInstance = axios.create({
   },
 });
 
-// Request interceptor to add auth token
+// Request interceptor to add auth token and log
 api.interceptors.request.use(
   async (config) => {
     const token = await AsyncStorage.getItem(DEVICE_TOKEN_KEY);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    apiLogger.request(config);
     return config;
   },
   (error) => {
+    apiLogger.error(error);
     return Promise.reject(error);
   }
 );
 
-// Response interceptor for error handling
+// Response interceptor for logging and error handling
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    apiLogger.response(response);
+    return response;
+  },
   async (error: AxiosError) => {
+    apiLogger.error(error);
     if (error.response?.status === 401) {
       // Token invalid, clear it and re-register
       await AsyncStorage.removeItem(DEVICE_TOKEN_KEY);
