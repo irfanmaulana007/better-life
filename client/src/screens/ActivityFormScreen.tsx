@@ -13,7 +13,7 @@ import {
   FlatList,
 } from 'react-native';
 import { useActivityStore, useMilestoneStore } from '@store';
-import { useSync } from '@hooks';
+import { useSync, useTheme } from '@hooks';
 import type { UnitType, DayOfWeek } from '@types/entities';
 import type { ActivityStackScreenProps } from '@types/navigation';
 
@@ -39,6 +39,7 @@ const DAYS_OF_WEEK: { value: DayOfWeek; label: string; short: string }[] = [
 export default function ActivityFormScreen({ navigation, route }: Props) {
   const { localId, milestoneLocalId: initialMilestoneId } = route.params || {};
   const isEditing = !!localId;
+  const theme = useTheme();
 
   const { triggerSync } = useSync();
 
@@ -194,12 +195,12 @@ export default function ActivityFormScreen({ navigation, route }: Props) {
       animationType="slide"
       presentationStyle="pageSheet"
     >
-      <View style={styles.modalContainer}>
-        <View style={styles.modalHeader}>
+      <View style={[styles.modalContainer, { backgroundColor: theme.colors.background }]}>
+        <View style={[styles.modalHeader, { backgroundColor: theme.colors.card, borderBottomColor: theme.colors.border }]}>
           <TouchableOpacity onPress={() => setShowMilestonePicker(false)}>
-            <Text style={styles.modalCancel}>Cancel</Text>
+            <Text style={[styles.modalCancel, { color: theme.colors.primary }]}>Cancel</Text>
           </TouchableOpacity>
-          <Text style={styles.modalTitle}>Select Milestone</Text>
+          <Text style={[styles.modalTitle, { color: theme.colors.text }]}>Select Milestone</Text>
           <View style={styles.modalSpacer} />
         </View>
         <FlatList
@@ -209,7 +210,8 @@ export default function ActivityFormScreen({ navigation, route }: Props) {
             <TouchableOpacity
               style={[
                 styles.milestoneOption,
-                milestoneLocalId === item.localId && styles.milestoneOptionSelected,
+                { backgroundColor: theme.colors.card, borderBottomColor: theme.colors.border },
+                milestoneLocalId === item.localId && { backgroundColor: theme.colors.primaryLight },
               ]}
               onPress={() => {
                 setMilestoneLocalId(item.localId);
@@ -220,19 +222,20 @@ export default function ActivityFormScreen({ navigation, route }: Props) {
               <Text
                 style={[
                   styles.milestoneOptionText,
-                  milestoneLocalId === item.localId && styles.milestoneOptionTextSelected,
+                  { color: theme.colors.text },
+                  milestoneLocalId === item.localId && { color: theme.colors.primary, fontWeight: '500' },
                 ]}
               >
                 {item.name}
               </Text>
               {milestoneLocalId === item.localId && (
-                <Text style={styles.checkmark}>✓</Text>
+                <Text style={[styles.checkmark, { color: theme.colors.primary }]}>✓</Text>
               )}
             </TouchableOpacity>
           )}
           ListEmptyComponent={
             <View style={styles.emptyMilestones}>
-              <Text style={styles.emptyMilestonesText}>
+              <Text style={[styles.emptyMilestonesText, { color: theme.colors.textSecondary }]}>
                 No milestones available. Create a milestone first.
               </Text>
             </View>
@@ -244,64 +247,75 @@ export default function ActivityFormScreen({ navigation, route }: Props) {
 
   return (
     <KeyboardAvoidingView
-      style={styles.container}
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         {/* Name Input */}
         <View style={styles.section}>
-          <Text style={styles.label}>Name</Text>
+          <Text style={[styles.label, { color: theme.colors.text }]}>Name</Text>
           <TextInput
-            style={[styles.input, errors.name && styles.inputError]}
+            style={[
+              styles.input,
+              { backgroundColor: theme.colors.card, borderColor: theme.colors.border, color: theme.colors.text },
+              errors.name && { borderColor: theme.colors.error },
+            ]}
             value={name}
             onChangeText={text => {
               setName(text);
               setErrors(prev => ({ ...prev, name: undefined }));
             }}
             placeholder="Enter activity name"
-            placeholderTextColor="#C7C7CC"
+            placeholderTextColor={theme.colors.placeholder}
             autoFocus={!isEditing}
           />
-          {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
+          {errors.name && <Text style={[styles.errorText, { color: theme.colors.error }]}>{errors.name}</Text>}
         </View>
 
         {/* Milestone Selector */}
         <View style={styles.section}>
-          <Text style={styles.label}>Milestone</Text>
+          <Text style={[styles.label, { color: theme.colors.text }]}>Milestone</Text>
           <TouchableOpacity
-            style={[styles.pickerButton, errors.milestone && styles.inputError]}
+            style={[
+              styles.pickerButton,
+              { backgroundColor: theme.colors.card, borderColor: theme.colors.border },
+              errors.milestone && { borderColor: theme.colors.error },
+            ]}
             onPress={() => setShowMilestonePicker(true)}
           >
             <Text
               style={[
                 styles.pickerButtonText,
-                !milestoneLocalId && styles.pickerButtonPlaceholder,
+                { color: theme.colors.text },
+                !milestoneLocalId && { color: theme.colors.placeholder },
               ]}
             >
               {getSelectedMilestoneName()}
             </Text>
-            <Text style={styles.pickerArrow}>▼</Text>
+            <Text style={[styles.pickerArrow, { color: theme.colors.textSecondary }]}>▼</Text>
           </TouchableOpacity>
-          {errors.milestone && <Text style={styles.errorText}>{errors.milestone}</Text>}
+          {errors.milestone && <Text style={[styles.errorText, { color: theme.colors.error }]}>{errors.milestone}</Text>}
         </View>
 
         {/* Unit Type */}
         <View style={styles.section}>
-          <Text style={styles.label}>Unit Type</Text>
+          <Text style={[styles.label, { color: theme.colors.text }]}>Unit Type</Text>
           <View style={styles.unitTypeGrid}>
             {UNIT_TYPES.map(type => (
               <TouchableOpacity
                 key={type.value}
                 style={[
                   styles.unitTypeButton,
-                  unitType === type.value && styles.unitTypeButtonActive,
+                  { backgroundColor: theme.colors.card, borderColor: theme.colors.border },
+                  unitType === type.value && { borderColor: theme.colors.primary, backgroundColor: theme.colors.primaryLight },
                 ]}
                 onPress={() => setUnitType(type.value)}
               >
                 <Text
                   style={[
                     styles.unitTypeLabel,
-                    unitType === type.value && styles.unitTypeLabelActive,
+                    { color: theme.colors.text },
+                    unitType === type.value && { color: theme.colors.primary },
                   ]}
                 >
                   {type.label}
@@ -309,7 +323,8 @@ export default function ActivityFormScreen({ navigation, route }: Props) {
                 <Text
                   style={[
                     styles.unitTypeDesc,
-                    unitType === type.value && styles.unitTypeDescActive,
+                    { color: theme.colors.textSecondary },
+                    unitType === type.value && { color: theme.colors.primary },
                   ]}
                 >
                   {type.description}
@@ -321,32 +336,36 @@ export default function ActivityFormScreen({ navigation, route }: Props) {
 
         {/* Unit Name */}
         <View style={styles.section}>
-          <Text style={styles.label}>Unit Name</Text>
+          <Text style={[styles.label, { color: theme.colors.text }]}>Unit Name</Text>
           <TextInput
-            style={[styles.input, errors.unitName && styles.inputError]}
+            style={[
+              styles.input,
+              { backgroundColor: theme.colors.card, borderColor: theme.colors.border, color: theme.colors.text },
+              errors.unitName && { borderColor: theme.colors.error },
+            ]}
             value={unitName}
             onChangeText={text => {
               setUnitName(text);
               setErrors(prev => ({ ...prev, unitName: undefined }));
             }}
             placeholder="e.g., km, minutes, reps"
-            placeholderTextColor="#C7C7CC"
+            placeholderTextColor={theme.colors.placeholder}
           />
-          {errors.unitName && <Text style={styles.errorText}>{errors.unitName}</Text>}
+          {errors.unitName && <Text style={[styles.errorText, { color: theme.colors.error }]}>{errors.unitName}</Text>}
         </View>
 
         {/* Target Goal */}
         <View style={styles.section}>
-          <Text style={styles.label}>Target Goal (Optional)</Text>
+          <Text style={[styles.label, { color: theme.colors.text }]}>Target Goal (Optional)</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { backgroundColor: theme.colors.card, borderColor: theme.colors.border, color: theme.colors.text }]}
             value={targetGoal}
             onChangeText={setTargetGoal}
             placeholder="Enter target number"
-            placeholderTextColor="#C7C7CC"
+            placeholderTextColor={theme.colors.placeholder}
             keyboardType="numeric"
           />
-          <Text style={styles.helpText}>
+          <Text style={[styles.helpText, { color: theme.colors.textSecondary }]}>
             Set a daily target for this activity
           </Text>
         </View>
@@ -354,13 +373,13 @@ export default function ActivityFormScreen({ navigation, route }: Props) {
         {/* Schedule Days */}
         <View style={styles.section}>
           <View style={styles.scheduleLabelRow}>
-            <Text style={styles.label}>Schedule Days</Text>
+            <Text style={[styles.label, { color: theme.colors.text }]}>Schedule Days</Text>
             <View style={styles.scheduleQuickActions}>
               <TouchableOpacity onPress={selectAllDays}>
-                <Text style={styles.quickAction}>All</Text>
+                <Text style={[styles.quickAction, { color: theme.colors.primary }]}>All</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={selectWeekdays}>
-                <Text style={styles.quickAction}>Weekdays</Text>
+                <Text style={[styles.quickAction, { color: theme.colors.primary }]}>Weekdays</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -370,13 +389,15 @@ export default function ActivityFormScreen({ navigation, route }: Props) {
                 key={day.value}
                 style={[
                   styles.dayButton,
-                  scheduleDays.includes(day.value) && styles.dayButtonActive,
+                  { backgroundColor: theme.colors.border },
+                  scheduleDays.includes(day.value) && { backgroundColor: theme.colors.primary },
                 ]}
                 onPress={() => toggleDay(day.value)}
               >
                 <Text
                   style={[
                     styles.dayButtonText,
+                    { color: theme.colors.textSecondary },
                     scheduleDays.includes(day.value) && styles.dayButtonTextActive,
                   ]}
                 >
@@ -386,7 +407,7 @@ export default function ActivityFormScreen({ navigation, route }: Props) {
             ))}
           </View>
           {errors.scheduleDays && (
-            <Text style={styles.errorText}>{errors.scheduleDays}</Text>
+            <Text style={[styles.errorText, { color: theme.colors.error }]}>{errors.scheduleDays}</Text>
           )}
         </View>
       </ScrollView>
@@ -399,7 +420,6 @@ export default function ActivityFormScreen({ navigation, route }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F2F7',
   },
   scrollView: {
     flex: 1,
@@ -413,51 +433,35 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#000',
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#fff',
     borderRadius: 10,
     padding: 16,
     fontSize: 16,
-    color: '#000',
     borderWidth: 1,
-    borderColor: '#E5E5EA',
-  },
-  inputError: {
-    borderColor: '#FF3B30',
   },
   errorText: {
-    color: '#FF3B30',
     fontSize: 14,
     marginTop: 4,
   },
   helpText: {
-    color: '#8E8E93',
     fontSize: 14,
     marginTop: 4,
   },
   pickerButton: {
-    backgroundColor: '#fff',
     borderRadius: 10,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#E5E5EA',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   pickerButtonText: {
     fontSize: 16,
-    color: '#000',
-  },
-  pickerButtonPlaceholder: {
-    color: '#C7C7CC',
   },
   pickerArrow: {
     fontSize: 12,
-    color: '#8E8E93',
   },
   unitTypeGrid: {
     flexDirection: 'row',
@@ -466,31 +470,17 @@ const styles = StyleSheet.create({
   },
   unitTypeButton: {
     width: '48%',
-    backgroundColor: '#fff',
     borderRadius: 10,
     padding: 12,
     borderWidth: 2,
-    borderColor: '#E5E5EA',
-  },
-  unitTypeButtonActive: {
-    borderColor: '#007AFF',
-    backgroundColor: '#007AFF10',
   },
   unitTypeLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#000',
     marginBottom: 2,
-  },
-  unitTypeLabelActive: {
-    color: '#007AFF',
   },
   unitTypeDesc: {
     fontSize: 12,
-    color: '#8E8E93',
-  },
-  unitTypeDescActive: {
-    color: '#007AFF',
   },
   scheduleLabelRow: {
     flexDirection: 'row',
@@ -504,7 +494,6 @@ const styles = StyleSheet.create({
   },
   quickAction: {
     fontSize: 14,
-    color: '#007AFF',
     fontWeight: '500',
   },
   daysContainer: {
@@ -515,17 +504,12 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#E5E5EA',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  dayButtonActive: {
-    backgroundColor: '#007AFF',
   },
   dayButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#8E8E93',
   },
   dayButtonTextActive: {
     color: '#fff',
@@ -544,25 +528,20 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: '#F2F2F7',
   },
   modalHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E5EA',
   },
   modalCancel: {
     fontSize: 17,
-    color: '#007AFF',
   },
   modalTitle: {
     fontSize: 17,
     fontWeight: '600',
-    color: '#000',
   },
   modalSpacer: {
     width: 60,
@@ -572,24 +551,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E5EA',
-  },
-  milestoneOptionSelected: {
-    backgroundColor: '#007AFF10',
   },
   milestoneOptionText: {
     fontSize: 16,
-    color: '#000',
-  },
-  milestoneOptionTextSelected: {
-    color: '#007AFF',
-    fontWeight: '500',
   },
   checkmark: {
     fontSize: 16,
-    color: '#007AFF',
     fontWeight: '600',
   },
   emptyMilestones: {
@@ -598,7 +566,6 @@ const styles = StyleSheet.create({
   },
   emptyMilestonesText: {
     fontSize: 16,
-    color: '#8E8E93',
     textAlign: 'center',
   },
 });

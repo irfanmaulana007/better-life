@@ -3,3 +3,6 @@ export { default as ActivityCard } from './ActivityCard';
 export { default as EmptyState } from './EmptyState';
 export { default as FAB } from './FAB';
 export { SyncStatusIndicator } from './SyncStatusIndicator';
+export { Loading } from './Loading';
+export { ErrorMessage } from './ErrorMessage';
+export { ConfirmDialog } from './ConfirmDialog';

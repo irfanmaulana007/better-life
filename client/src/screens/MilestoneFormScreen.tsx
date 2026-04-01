@@ -13,7 +13,7 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
 import { useMilestoneStore } from '@store';
-import { useSync } from '@hooks';
+import { useSync, useTheme } from '@hooks';
 import type { MilestoneStackScreenProps } from '@types/navigation';
 
 type Props = MilestoneStackScreenProps<'MilestoneForm'>;
@@ -21,6 +21,7 @@ type Props = MilestoneStackScreenProps<'MilestoneForm'>;
 export default function MilestoneFormScreen({ navigation, route }: Props) {
   const { localId } = route.params || {};
   const isEditing = !!localId;
+  const theme = useTheme();
 
   const { triggerSync } = useSync();
 
@@ -149,35 +150,39 @@ export default function MilestoneFormScreen({ navigation, route }: Props) {
 
   return (
     <KeyboardAvoidingView
-      style={styles.container}
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         {/* Name Input */}
         <View style={styles.section}>
-          <Text style={styles.label}>Name</Text>
+          <Text style={[styles.label, { color: theme.colors.text }]}>Name</Text>
           <TextInput
-            style={[styles.input, errors.name && styles.inputError]}
+            style={[
+              styles.input,
+              { backgroundColor: theme.colors.card, borderColor: theme.colors.border, color: theme.colors.text },
+              errors.name && { borderColor: theme.colors.error },
+            ]}
             value={name}
             onChangeText={text => {
               setName(text);
               setErrors(prev => ({ ...prev, name: undefined }));
             }}
             placeholder="Enter milestone name"
-            placeholderTextColor="#C7C7CC"
+            placeholderTextColor={theme.colors.placeholder}
             autoFocus={!isEditing}
           />
-          {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
+          {errors.name && <Text style={[styles.errorText, { color: theme.colors.error }]}>{errors.name}</Text>}
         </View>
 
         {/* Start Date */}
         <View style={styles.section}>
-          <Text style={styles.label}>Start Date</Text>
+          <Text style={[styles.label, { color: theme.colors.text }]}>Start Date</Text>
           <TouchableOpacity
-            style={styles.dateButton}
+            style={[styles.dateButton, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}
             onPress={() => setShowStartPicker(true)}
           >
-            <Text style={styles.dateText}>{format(startDate, 'MMMM d, yyyy')}</Text>
+            <Text style={[styles.dateText, { color: theme.colors.text }]}>{format(startDate, 'MMMM d, yyyy')}</Text>
           </TouchableOpacity>
           {showStartPicker && (
             <DateTimePicker
@@ -192,8 +197,8 @@ export default function MilestoneFormScreen({ navigation, route }: Props) {
         {/* End Date Toggle */}
         <View style={styles.section}>
           <TouchableOpacity style={styles.toggleRow} onPress={toggleEndDate}>
-            <Text style={styles.label}>Set End Date</Text>
-            <View style={[styles.toggle, hasEndDate && styles.toggleActive]}>
+            <Text style={[styles.label, { color: theme.colors.text }]}>Set End Date</Text>
+            <View style={[styles.toggle, { backgroundColor: theme.colors.border }, hasEndDate && { backgroundColor: theme.colors.success }]}>
               <View style={[styles.toggleThumb, hasEndDate && styles.toggleThumbActive]} />
             </View>
           </TouchableOpacity>
@@ -202,12 +207,16 @@ export default function MilestoneFormScreen({ navigation, route }: Props) {
         {/* End Date */}
         {hasEndDate && (
           <View style={styles.section}>
-            <Text style={styles.label}>End Date</Text>
+            <Text style={[styles.label, { color: theme.colors.text }]}>End Date</Text>
             <TouchableOpacity
-              style={[styles.dateButton, errors.dates && styles.inputError]}
+              style={[
+                styles.dateButton,
+                { backgroundColor: theme.colors.card, borderColor: theme.colors.border },
+                errors.dates && { borderColor: theme.colors.error },
+              ]}
               onPress={() => setShowEndPicker(true)}
             >
-              <Text style={styles.dateText}>
+              <Text style={[styles.dateText, { color: theme.colors.text }]}>
                 {endDate ? format(endDate, 'MMMM d, yyyy') : 'Select date'}
               </Text>
             </TouchableOpacity>
@@ -220,7 +229,7 @@ export default function MilestoneFormScreen({ navigation, route }: Props) {
                 minimumDate={startDate}
               />
             )}
-            {errors.dates && <Text style={styles.errorText}>{errors.dates}</Text>}
+            {errors.dates && <Text style={[styles.errorText, { color: theme.colors.error }]}>{errors.dates}</Text>}
           </View>
         )}
       </ScrollView>
@@ -231,7 +240,6 @@ export default function MilestoneFormScreen({ navigation, route }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F2F7',
   },
   scrollView: {
     flex: 1,
@@ -245,36 +253,25 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#000',
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#fff',
     borderRadius: 10,
     padding: 16,
     fontSize: 16,
-    color: '#000',
     borderWidth: 1,
-    borderColor: '#E5E5EA',
-  },
-  inputError: {
-    borderColor: '#FF3B30',
   },
   errorText: {
-    color: '#FF3B30',
     fontSize: 14,
     marginTop: 4,
   },
   dateButton: {
-    backgroundColor: '#fff',
     borderRadius: 10,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#E5E5EA',
   },
   dateText: {
     fontSize: 16,
-    color: '#000',
   },
   toggleRow: {
     flexDirection: 'row',
@@ -285,11 +282,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 30,
     borderRadius: 15,
-    backgroundColor: '#E5E5EA',
     padding: 2,
-  },
-  toggleActive: {
-    backgroundColor: '#34C759',
   },
   toggleThumb: {
     width: 26,

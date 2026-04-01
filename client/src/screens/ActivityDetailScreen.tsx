@@ -6,11 +6,11 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
-  ActivityIndicator,
 } from 'react-native';
 import { format } from 'date-fns';
 import { useActivityStore, useMilestoneStore, useSessionStore } from '@store';
-import { EmptyState } from '@components';
+import { EmptyState, Loading } from '@components';
+import { useTheme } from '@hooks';
 import type { Activity, Session } from '@types/entities';
 import type { ActivityStackScreenProps } from '@types/navigation';
 
@@ -26,6 +26,7 @@ const UNIT_TYPE_LABELS = {
 };
 
 export default function ActivityDetailScreen({ navigation, route }: Props) {
+  const theme = useTheme();
   const { localId } = route.params;
   const { fetchActivityById, removeActivity } = useActivityStore();
   const { fetchMilestoneById } = useMilestoneStore();
@@ -99,16 +100,12 @@ export default function ActivityDetailScreen({ navigation, route }: Props) {
   }, [navigation, handleEdit]);
 
   if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
-      </View>
-    );
+    return <Loading message="Loading activity..." />;
   }
 
   if (!activity) {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
         <EmptyState
           icon="❌"
           title="Activity Not Found"
@@ -140,43 +137,43 @@ export default function ActivityDetailScreen({ navigation, route }: Props) {
   const recentSessions = sessions.slice(0, 10);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
       {/* Header Card */}
-      <View style={styles.card}>
-        <Text style={styles.activityName}>{activity.name}</Text>
-        <View style={styles.unitBadge}>
-          <Text style={styles.unitBadgeText}>
+      <View style={[styles.card, { backgroundColor: theme.colors.card }]}>
+        <Text style={[styles.activityName, { color: theme.colors.text }]}>{activity.name}</Text>
+        <View style={[styles.unitBadge, { backgroundColor: theme.colors.primaryLight }]}>
+          <Text style={[styles.unitBadgeText, { color: theme.colors.primary }]}>
             {UNIT_TYPE_LABELS[activity.unitType]}
           </Text>
         </View>
       </View>
 
       {/* Details Card */}
-      <View style={styles.card}>
-        <Text style={styles.sectionTitle}>Details</Text>
+      <View style={[styles.card, { backgroundColor: theme.colors.card }]}>
+        <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Details</Text>
 
-        <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Milestone</Text>
-          <Text style={styles.detailValue}>{milestoneName}</Text>
+        <View style={[styles.detailRow, { borderBottomColor: theme.colors.border }]}>
+          <Text style={[styles.detailLabel, { color: theme.colors.textSecondary }]}>Milestone</Text>
+          <Text style={[styles.detailValue, { color: theme.colors.text }]}>{milestoneName}</Text>
         </View>
 
-        <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Unit</Text>
-          <Text style={styles.detailValue}>{activity.unitName}</Text>
+        <View style={[styles.detailRow, { borderBottomColor: theme.colors.border }]}>
+          <Text style={[styles.detailLabel, { color: theme.colors.textSecondary }]}>Unit</Text>
+          <Text style={[styles.detailValue, { color: theme.colors.text }]}>{activity.unitName}</Text>
         </View>
 
         {activity.targetGoal && (
-          <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Target Goal</Text>
-            <Text style={styles.detailValue}>
+          <View style={[styles.detailRow, { borderBottomColor: theme.colors.border }]}>
+            <Text style={[styles.detailLabel, { color: theme.colors.textSecondary }]}>Target Goal</Text>
+            <Text style={[styles.detailValue, { color: theme.colors.text }]}>
               {activity.targetGoal} {activity.unitName}
             </Text>
           </View>
         )}
 
-        <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Schedule</Text>
-          <Text style={styles.detailValue}>{getScheduleText()}</Text>
+        <View style={[styles.detailRow, { borderBottomColor: theme.colors.border }]}>
+          <Text style={[styles.detailLabel, { color: theme.colors.textSecondary }]}>Schedule</Text>
+          <Text style={[styles.detailValue, { color: theme.colors.text }]}>{getScheduleText()}</Text>
         </View>
 
         <View style={styles.scheduleVisual}>
@@ -185,13 +182,15 @@ export default function ActivityDetailScreen({ navigation, route }: Props) {
               key={index}
               style={[
                 styles.dayBadge,
+                { backgroundColor: theme.colors.border },
                 activity.scheduleDays.includes(index as 0 | 1 | 2 | 3 | 4 | 5 | 6) &&
-                  styles.dayBadgeActive,
+                  { backgroundColor: theme.colors.primary },
               ]}
             >
               <Text
                 style={[
                   styles.dayText,
+                  { color: theme.colors.textSecondary },
                   activity.scheduleDays.includes(index as 0 | 1 | 2 | 3 | 4 | 5 | 6) &&
                     styles.dayTextActive,
                 ]}
@@ -204,27 +203,27 @@ export default function ActivityDetailScreen({ navigation, route }: Props) {
       </View>
 
       {/* Log Session Button */}
-      <TouchableOpacity style={styles.logButton} onPress={handleLogSession}>
+      <TouchableOpacity style={[styles.logButton, { backgroundColor: theme.colors.primary }]} onPress={handleLogSession}>
         <Text style={styles.logButtonText}>Log Today's Session</Text>
       </TouchableOpacity>
 
       {/* Recent Sessions Card */}
-      <View style={styles.card}>
-        <Text style={styles.sectionTitle}>Recent Sessions</Text>
+      <View style={[styles.card, { backgroundColor: theme.colors.card }]}>
+        <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Recent Sessions</Text>
 
         {recentSessions.length === 0 ? (
-          <Text style={styles.noSessionsText}>
+          <Text style={[styles.noSessionsText, { color: theme.colors.textSecondary }]}>
             No sessions logged yet. Start tracking your progress!
           </Text>
         ) : (
           recentSessions.map((session: Session) => (
-            <View key={session.localId} style={styles.sessionItem}>
+            <View key={session.localId} style={[styles.sessionItem, { borderBottomColor: theme.colors.border }]}>
               <View style={styles.sessionInfo}>
-                <Text style={styles.sessionDate}>
+                <Text style={[styles.sessionDate, { color: theme.colors.text }]}>
                   {format(new Date(session.date), 'MMM d, yyyy')}
                 </Text>
                 {session.actualResult !== undefined && (
-                  <Text style={styles.sessionResult}>
+                  <Text style={[styles.sessionResult, { color: theme.colors.textSecondary }]}>
                     {session.actualResult} {activity.unitName}
                   </Text>
                 )}
@@ -232,15 +231,17 @@ export default function ActivityDetailScreen({ navigation, route }: Props) {
               <View
                 style={[
                   styles.sessionStatus,
-                  session.isCompleted ? styles.completed : styles.incomplete,
+                  session.isCompleted
+                    ? { backgroundColor: theme.colors.successLight }
+                    : { backgroundColor: theme.colors.border },
                 ]}
               >
                 <Text
                   style={[
                     styles.sessionStatusText,
                     session.isCompleted
-                      ? styles.completedText
-                      : styles.incompleteText,
+                      ? { color: theme.colors.success }
+                      : { color: theme.colors.textSecondary },
                   ]}
                 >
                   {session.isCompleted ? '✓' : '○'}
@@ -252,8 +253,8 @@ export default function ActivityDetailScreen({ navigation, route }: Props) {
       </View>
 
       {/* Delete Button */}
-      <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
-        <Text style={styles.deleteButtonText}>Delete Activity</Text>
+      <TouchableOpacity style={[styles.deleteButton, { backgroundColor: theme.colors.card }]} onPress={handleDelete}>
+        <Text style={[styles.deleteButtonText, { color: theme.colors.error }]}>Delete Activity</Text>
       </TouchableOpacity>
 
       <View style={styles.bottomPadding} />
@@ -264,16 +265,8 @@ export default function ActivityDetailScreen({ navigation, route }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F2F7',
-  },
-  loadingContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F2F2F7',
   },
   card: {
-    backgroundColor: '#fff',
     marginHorizontal: 16,
     marginTop: 16,
     borderRadius: 12,
@@ -282,12 +275,10 @@ const styles = StyleSheet.create({
   activityName: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#000',
     marginBottom: 12,
   },
   unitBadge: {
     alignSelf: 'flex-start',
-    backgroundColor: '#007AFF20',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
@@ -295,12 +286,10 @@ const styles = StyleSheet.create({
   unitBadgeText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#007AFF',
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#000',
     marginBottom: 12,
   },
   detailRow: {
@@ -308,16 +297,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E5EA',
   },
   detailLabel: {
     fontSize: 16,
-    color: '#8E8E93',
   },
   detailValue: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#000',
   },
   scheduleVisual: {
     flexDirection: 'row',
@@ -328,17 +314,12 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#E5E5EA',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  dayBadgeActive: {
-    backgroundColor: '#007AFF',
   },
   dayText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#8E8E93',
   },
   dayTextActive: {
     color: '#fff',
@@ -347,7 +328,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 16,
     padding: 16,
-    backgroundColor: '#007AFF',
     borderRadius: 12,
     alignItems: 'center',
   },
@@ -358,7 +338,6 @@ const styles = StyleSheet.create({
   },
   noSessionsText: {
     fontSize: 14,
-    color: '#8E8E93',
     fontStyle: 'italic',
   },
   sessionItem: {
@@ -367,7 +346,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E5EA',
   },
   sessionInfo: {
     flex: 1,
@@ -375,11 +353,9 @@ const styles = StyleSheet.create({
   sessionDate: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#000',
   },
   sessionResult: {
     fontSize: 14,
-    color: '#8E8E93',
     marginTop: 2,
   },
   sessionStatus: {
@@ -389,33 +365,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  completed: {
-    backgroundColor: '#34C75920',
-  },
-  incomplete: {
-    backgroundColor: '#E5E5EA',
-  },
   sessionStatusText: {
     fontSize: 16,
     fontWeight: '600',
-  },
-  completedText: {
-    color: '#34C759',
-  },
-  incompleteText: {
-    color: '#8E8E93',
   },
   deleteButton: {
     marginHorizontal: 16,
     marginTop: 24,
     padding: 16,
-    backgroundColor: '#fff',
     borderRadius: 12,
     alignItems: 'center',
   },
   deleteButtonText: {
     fontSize: 16,
-    color: '#FF3B30',
     fontWeight: '500',
   },
   headerButtons: {

@@ -6,13 +6,12 @@ import {
   ScrollView,
   TouchableOpacity,
   RefreshControl,
-  ActivityIndicator,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { format, addDays, subDays, isToday, isFuture } from 'date-fns';
 import { useActivityStore, useSessionStore, useMilestoneStore } from '@store';
-import { EmptyState, SyncStatusIndicator } from '@components';
-import { useSync } from '@hooks';
+import { EmptyState, SyncStatusIndicator, Loading } from '@components';
+import { useSync, useTheme } from '@hooks';
 import type { Activity, Session } from '@types/entities';
 import type { HomeStackScreenProps } from '@types/navigation';
 
@@ -21,6 +20,7 @@ type Props = HomeStackScreenProps<'Home'>;
 export default function HomeScreen({ navigation }: Props) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [refreshing, setRefreshing] = useState(false);
+  const theme = useTheme();
 
   const { triggerSync, manualSync } = useSync();
 
@@ -174,39 +174,39 @@ export default function HomeScreen({ navigation }: Props) {
   };
 
   if (isLoading && dayActivities.length === 0) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
-      </View>
-    );
+    return <Loading message="Loading activities..." />;
   }
 
   return (
     <ScrollView
-      style={styles.container}
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+          tintColor={theme.colors.primary}
+        />
       }
     >
       {/* Date Selector */}
-      <View style={styles.dateSelector}>
+      <View style={[styles.dateSelector, { backgroundColor: theme.colors.card, borderBottomColor: theme.colors.border }]}>
         <TouchableOpacity
           style={styles.dateArrow}
           onPress={() => handleDateChange('prev')}
         >
-          <Text style={styles.dateArrowText}>‹</Text>
+          <Text style={[styles.dateArrowText, { color: theme.colors.primary }]}>‹</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.dateCenter} onPress={handleGoToToday}>
-          <Text style={styles.dateLabelText}>{getDateLabel()}</Text>
-          <Text style={styles.dateText}>{format(selectedDate, 'MMMM d, yyyy')}</Text>
+          <Text style={[styles.dateLabelText, { color: theme.colors.text }]}>{getDateLabel()}</Text>
+          <Text style={[styles.dateText, { color: theme.colors.textSecondary }]}>{format(selectedDate, 'MMMM d, yyyy')}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.dateArrow}
           onPress={() => handleDateChange('next')}
         >
-          <Text style={styles.dateArrowText}>›</Text>
+          <Text style={[styles.dateArrowText, { color: theme.colors.primary }]}>›</Text>
         </TouchableOpacity>
 
         <SyncStatusIndicator />
@@ -215,18 +215,18 @@ export default function HomeScreen({ navigation }: Props) {
       {/* Stats Row */}
       <View style={styles.statsRow}>
         {/* Streak Card */}
-        <View style={styles.statCard}>
+        <View style={[styles.statCard, { backgroundColor: theme.colors.card }]}>
           <Text style={styles.statEmoji}>🔥</Text>
-          <Text style={styles.statValue}>{currentStreak}</Text>
-          <Text style={styles.statLabel}>Day Streak</Text>
+          <Text style={[styles.statValue, { color: theme.colors.text }]}>{currentStreak}</Text>
+          <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>Day Streak</Text>
         </View>
 
         {/* Progress Card */}
-        <View style={styles.statCard}>
-          <View style={styles.progressCircle}>
-            <Text style={styles.progressText}>{progressPercentage}%</Text>
+        <View style={[styles.statCard, { backgroundColor: theme.colors.card }]}>
+          <View style={[styles.progressCircle, { backgroundColor: theme.colors.primaryLight }]}>
+            <Text style={[styles.progressText, { color: theme.colors.primary }]}>{progressPercentage}%</Text>
           </View>
-          <Text style={styles.statLabel}>
+          <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>
             {completionStats.completed}/{completionStats.total} Done
           </Text>
         </View>
@@ -235,9 +235,9 @@ export default function HomeScreen({ navigation }: Props) {
       {/* Progress Bar */}
       {completionStats.total > 0 && (
         <View style={styles.progressBarContainer}>
-          <View style={styles.progressBar}>
+          <View style={[styles.progressBar, { backgroundColor: theme.colors.border }]}>
             <View
-              style={[styles.progressFill, { width: `${progressPercentage}%` }]}
+              style={[styles.progressFill, { width: `${progressPercentage}%`, backgroundColor: theme.colors.success }]}
             />
           </View>
         </View>
@@ -245,7 +245,7 @@ export default function HomeScreen({ navigation }: Props) {
 
       {/* Activities Section */}
       <View style={styles.activitiesSection}>
-        <Text style={styles.sectionTitle}>
+        <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
           {isToday(selectedDate) ? "Today's Activities" : 'Activities'}
         </Text>
 
@@ -269,12 +269,20 @@ export default function HomeScreen({ navigation }: Props) {
             return (
               <TouchableOpacity
                 key={activity.localId}
-                style={[styles.activityCard, isCompleted && styles.activityCardCompleted]}
+                style={[
+                  styles.activityCard,
+                  { backgroundColor: theme.colors.card },
+                  isCompleted && { backgroundColor: theme.colors.successLight },
+                ]}
                 onPress={() => handleLogSession(activity)}
                 activeOpacity={0.7}
               >
                 <TouchableOpacity
-                  style={[styles.checkbox, isCompleted && styles.checkboxChecked]}
+                  style={[
+                    styles.checkbox,
+                    { borderColor: theme.colors.disabled },
+                    isCompleted && { backgroundColor: theme.colors.success, borderColor: theme.colors.success },
+                  ]}
                   onPress={() => handleToggleComplete(activity)}
                 >
                   {isCompleted && <Text style={styles.checkmark}>✓</Text>}
@@ -284,24 +292,25 @@ export default function HomeScreen({ navigation }: Props) {
                   <Text
                     style={[
                       styles.activityName,
-                      isCompleted && styles.activityNameCompleted,
+                      { color: theme.colors.text },
+                      isCompleted && { textDecorationLine: 'line-through', color: theme.colors.textSecondary },
                     ]}
                   >
                     {activity.name}
                   </Text>
-                  <Text style={styles.activityMeta}>
+                  <Text style={[styles.activityMeta, { color: theme.colors.textSecondary }]}>
                     {milestoneNameMap[activity.milestoneLocalId]}
                     {activity.targetGoal && ` • ${activity.targetGoal} ${activity.unitName}`}
                   </Text>
                   {session?.actualResult !== undefined && (
-                    <Text style={styles.sessionResult}>
+                    <Text style={[styles.sessionResult, { color: theme.colors.success }]}>
                       Logged: {session.actualResult} {activity.unitName}
                     </Text>
                   )}
                 </View>
 
-                <View style={styles.logButton}>
-                  <Text style={styles.logButtonText}>
+                <View style={[styles.logButton, { backgroundColor: theme.colors.primaryLight }]}>
+                  <Text style={[styles.logButtonText, { color: theme.colors.primary }]}>
                     {session ? 'Edit' : 'Log'}
                   </Text>
                 </View>
@@ -313,8 +322,8 @@ export default function HomeScreen({ navigation }: Props) {
 
       {/* Future Date Notice */}
       {isFuture(selectedDate) && (
-        <View style={styles.futureNotice}>
-          <Text style={styles.futureNoticeText}>
+        <View style={[styles.futureNotice, { backgroundColor: theme.colors.warningLight }]}>
+          <Text style={[styles.futureNoticeText, { color: theme.colors.warning }]}>
             This is a future date. You can plan activities but cannot log sessions yet.
           </Text>
         </View>
@@ -328,23 +337,14 @@ export default function HomeScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F2F7',
-  },
-  loadingContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F2F2F7',
   },
   dateSelector: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#fff',
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E5EA',
   },
   dateArrow: {
     width: 44,
@@ -354,7 +354,6 @@ const styles = StyleSheet.create({
   },
   dateArrowText: {
     fontSize: 28,
-    color: '#007AFF',
     fontWeight: '300',
   },
   dateCenter: {
@@ -364,11 +363,9 @@ const styles = StyleSheet.create({
   dateLabelText: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#000',
   },
   dateText: {
     fontSize: 14,
-    color: '#8E8E93',
     marginTop: 2,
   },
   statsRow: {
@@ -379,7 +376,6 @@ const styles = StyleSheet.create({
   },
   statCard: {
     flex: 1,
-    backgroundColor: '#fff',
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
@@ -396,18 +392,15 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#000',
   },
   statLabel: {
     fontSize: 14,
-    color: '#8E8E93',
     marginTop: 4,
   },
   progressCircle: {
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#007AFF20',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
@@ -415,7 +408,6 @@ const styles = StyleSheet.create({
   progressText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#007AFF',
   },
   progressBarContainer: {
     paddingHorizontal: 16,
@@ -423,13 +415,11 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: 8,
-    backgroundColor: '#E5E5EA',
     borderRadius: 4,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#34C759',
     borderRadius: 4,
   },
   activitiesSection: {
@@ -439,7 +429,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#000',
     marginBottom: 12,
   },
   emptyContainer: {
@@ -448,7 +437,6 @@ const styles = StyleSheet.create({
   activityCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
     borderRadius: 12,
     padding: 16,
     marginBottom: 8,
@@ -458,22 +446,14 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
   },
-  activityCardCompleted: {
-    backgroundColor: '#34C75910',
-  },
   checkbox: {
     width: 28,
     height: 28,
     borderRadius: 14,
     borderWidth: 2,
-    borderColor: '#C7C7CC',
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 12,
-  },
-  checkboxChecked: {
-    backgroundColor: '#34C759',
-    borderColor: '#34C759',
   },
   checkmark: {
     color: '#fff',
@@ -486,44 +466,33 @@ const styles = StyleSheet.create({
   activityName: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#000',
-  },
-  activityNameCompleted: {
-    textDecorationLine: 'line-through',
-    color: '#8E8E93',
   },
   activityMeta: {
     fontSize: 14,
-    color: '#8E8E93',
     marginTop: 2,
   },
   sessionResult: {
     fontSize: 14,
-    color: '#34C759',
     fontWeight: '500',
     marginTop: 4,
   },
   logButton: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    backgroundColor: '#007AFF20',
     borderRadius: 8,
   },
   logButtonText: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#007AFF',
   },
   futureNotice: {
     marginHorizontal: 16,
     marginTop: 16,
     padding: 12,
-    backgroundColor: '#FF950020',
     borderRadius: 8,
   },
   futureNoticeText: {
     fontSize: 14,
-    color: '#FF9500',
     textAlign: 'center',
   },
   bottomPadding: {

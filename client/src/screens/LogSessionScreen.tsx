@@ -13,7 +13,8 @@ import {
 } from 'react-native';
 import { format } from 'date-fns';
 import { useActivityStore, useSessionStore, useMilestoneStore } from '@store';
-import { useSync } from '@hooks';
+import { useSync, useTheme } from '@hooks';
+import { Loading } from '@components';
 import type { Activity, Session } from '@types/entities';
 import type { HomeStackScreenProps } from '@types/navigation';
 
@@ -28,6 +29,7 @@ const UNIT_TYPE_PLACEHOLDERS = {
 
 export default function LogSessionScreen({ navigation, route }: Props) {
   const { activityLocalId, date } = route.params;
+  const theme = useTheme();
 
   const { triggerSync } = useSync();
 
@@ -155,30 +157,26 @@ export default function LogSessionScreen({ navigation, route }: Props) {
   }, [navigation, existingSession, handleSave, isLoading]);
 
   if (!activity) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <Loading message="Loading activity..." />;
   }
 
   const formattedDate = format(new Date(date), 'EEEE, MMMM d, yyyy');
 
   return (
     <KeyboardAvoidingView
-      style={styles.container}
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         {/* Activity Info Card */}
-        <View style={styles.card}>
-          <Text style={styles.activityName}>{activity.name}</Text>
-          <Text style={styles.milestoneName}>{milestoneName}</Text>
-          <Text style={styles.dateText}>{formattedDate}</Text>
+        <View style={[styles.card, { backgroundColor: theme.colors.card }]}>
+          <Text style={[styles.activityName, { color: theme.colors.text }]}>{activity.name}</Text>
+          <Text style={[styles.milestoneName, { color: theme.colors.primary }]}>{milestoneName}</Text>
+          <Text style={[styles.dateText, { color: theme.colors.textSecondary }]}>{formattedDate}</Text>
           {activity.targetGoal && (
-            <View style={styles.targetRow}>
-              <Text style={styles.targetLabel}>Target:</Text>
-              <Text style={styles.targetValue}>
+            <View style={[styles.targetRow, { borderTopColor: theme.colors.border }]}>
+              <Text style={[styles.targetLabel, { color: theme.colors.textSecondary }]}>Target:</Text>
+              <Text style={[styles.targetValue, { color: theme.colors.text }]}>
                 {activity.targetGoal} {activity.unitName}
               </Text>
             </View>
@@ -186,37 +184,37 @@ export default function LogSessionScreen({ navigation, route }: Props) {
         </View>
 
         {/* Completion Toggle */}
-        <View style={styles.card}>
+        <View style={[styles.card, { backgroundColor: theme.colors.card }]}>
           <View style={styles.toggleRow}>
             <View>
-              <Text style={styles.toggleLabel}>Mark as Completed</Text>
-              <Text style={styles.toggleDescription}>
+              <Text style={[styles.toggleLabel, { color: theme.colors.text }]}>Mark as Completed</Text>
+              <Text style={[styles.toggleDescription, { color: theme.colors.textSecondary }]}>
                 Did you complete this activity?
               </Text>
             </View>
             <Switch
               value={isCompleted}
               onValueChange={setIsCompleted}
-              trackColor={{ false: '#E5E5EA', true: '#34C759' }}
+              trackColor={{ false: theme.colors.border, true: theme.colors.success }}
               thumbColor="#fff"
             />
           </View>
         </View>
 
         {/* Result Input */}
-        <View style={styles.card}>
-          <Text style={styles.inputLabel}>
+        <View style={[styles.card, { backgroundColor: theme.colors.card }]}>
+          <Text style={[styles.inputLabel, { color: theme.colors.text }]}>
             Actual Result ({activity.unitName})
           </Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { backgroundColor: theme.colors.background, color: theme.colors.text }]}
             value={actualResult}
             onChangeText={setActualResult}
             placeholder={UNIT_TYPE_PLACEHOLDERS[activity.unitType]}
-            placeholderTextColor="#C7C7CC"
+            placeholderTextColor={theme.colors.placeholder}
             keyboardType="decimal-pad"
           />
-          <Text style={styles.helpText}>
+          <Text style={[styles.helpText, { color: theme.colors.textSecondary }]}>
             {activity.unitType === 'distance' && 'Enter the distance you covered'}
             {activity.unitType === 'time' && 'Enter the time in minutes'}
             {activity.unitType === 'reps' && 'Enter the number of repetitions'}
@@ -225,14 +223,14 @@ export default function LogSessionScreen({ navigation, route }: Props) {
         </View>
 
         {/* Notes Input */}
-        <View style={styles.card}>
-          <Text style={styles.inputLabel}>Notes (Optional)</Text>
+        <View style={[styles.card, { backgroundColor: theme.colors.card }]}>
+          <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Notes (Optional)</Text>
           <TextInput
-            style={[styles.input, styles.notesInput]}
+            style={[styles.input, styles.notesInput, { backgroundColor: theme.colors.background, color: theme.colors.text }]}
             value={notes}
             onChangeText={setNotes}
             placeholder="Add any notes about this session..."
-            placeholderTextColor="#C7C7CC"
+            placeholderTextColor={theme.colors.placeholder}
             multiline
             numberOfLines={4}
             textAlignVertical="top"
@@ -241,8 +239,8 @@ export default function LogSessionScreen({ navigation, route }: Props) {
 
         {/* Delete Button (only for existing sessions) */}
         {existingSession && (
-          <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
-            <Text style={styles.deleteButtonText}>Delete Session</Text>
+          <TouchableOpacity style={[styles.deleteButton, { backgroundColor: theme.colors.card }]} onPress={handleDelete}>
+            <Text style={[styles.deleteButtonText, { color: theme.colors.error }]}>Delete Session</Text>
           </TouchableOpacity>
         )}
 
@@ -255,13 +253,6 @@ export default function LogSessionScreen({ navigation, route }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F2F7',
-  },
-  loadingContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F2F2F7',
   },
   scrollView: {
     flex: 1,
@@ -270,7 +261,6 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   card: {
-    backgroundColor: '#fff',
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
@@ -278,17 +268,14 @@ const styles = StyleSheet.create({
   activityName: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#000',
     marginBottom: 4,
   },
   milestoneName: {
     fontSize: 16,
-    color: '#007AFF',
     marginBottom: 4,
   },
   dateText: {
     fontSize: 14,
-    color: '#8E8E93',
     marginBottom: 12,
   },
   targetRow: {
@@ -296,17 +283,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#E5E5EA',
   },
   targetLabel: {
     fontSize: 16,
-    color: '#8E8E93',
     marginRight: 8,
   },
   targetValue: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#000',
   },
   toggleRow: {
     flexDirection: 'row',
@@ -316,43 +300,35 @@ const styles = StyleSheet.create({
   toggleLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#000',
   },
   toggleDescription: {
     fontSize: 14,
-    color: '#8E8E93',
     marginTop: 2,
   },
   inputLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#000',
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#F2F2F7',
     borderRadius: 10,
     padding: 16,
     fontSize: 16,
-    color: '#000',
   },
   notesInput: {
     minHeight: 100,
   },
   helpText: {
     fontSize: 14,
-    color: '#8E8E93',
     marginTop: 8,
   },
   deleteButton: {
     padding: 16,
-    backgroundColor: '#fff',
     borderRadius: 12,
     alignItems: 'center',
   },
   deleteButtonText: {
     fontSize: 16,
-    color: '#FF3B30',
     fontWeight: '500',
   },
   headerButton: {

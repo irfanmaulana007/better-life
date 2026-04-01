@@ -11,12 +11,14 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import { useActivityStore, useMilestoneStore } from '@store';
 import { ActivityCard, EmptyState, FAB } from '@components';
+import { useTheme } from '@hooks';
 import type { Activity } from '@types/entities';
 import type { ActivityStackScreenProps } from '@types/navigation';
 
 type Props = ActivityStackScreenProps<'ActivityList'>;
 
 export default function ActivityListScreen({ navigation, route }: Props) {
+  const theme = useTheme();
   const { milestoneLocalId: initialMilestoneId } = route.params || {};
 
   const { activities, isLoading, fetchAllActivities, fetchActivitiesByMilestone } =
@@ -82,7 +84,7 @@ export default function ActivityListScreen({ navigation, route }: Props) {
   };
 
   const renderFilterChips = () => (
-    <View style={styles.filterContainer}>
+    <View style={[styles.filterContainer, { backgroundColor: theme.colors.card, borderBottomColor: theme.colors.border }]}>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -91,13 +93,15 @@ export default function ActivityListScreen({ navigation, route }: Props) {
         <TouchableOpacity
           style={[
             styles.filterChip,
-            selectedMilestoneId === null && styles.filterChipActive,
+            { backgroundColor: theme.colors.border },
+            selectedMilestoneId === null && { backgroundColor: theme.colors.primary },
           ]}
           onPress={() => handleFilterPress(null)}
         >
           <Text
             style={[
               styles.filterChipText,
+              { color: theme.colors.textSecondary },
               selectedMilestoneId === null && styles.filterChipTextActive,
             ]}
           >
@@ -109,13 +113,15 @@ export default function ActivityListScreen({ navigation, route }: Props) {
             key={milestone.localId}
             style={[
               styles.filterChip,
-              selectedMilestoneId === milestone.localId && styles.filterChipActive,
+              { backgroundColor: theme.colors.border },
+              selectedMilestoneId === milestone.localId && { backgroundColor: theme.colors.primary },
             ]}
             onPress={() => handleFilterPress(milestone.localId)}
           >
             <Text
               style={[
                 styles.filterChipText,
+                { color: theme.colors.textSecondary },
                 selectedMilestoneId === milestone.localId && styles.filterChipTextActive,
               ]}
               numberOfLines={1}
@@ -155,7 +161,7 @@ export default function ActivityListScreen({ navigation, route }: Props) {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       {milestones.length > 0 && renderFilterChips()}
       <FlatList
         data={activities}
@@ -166,7 +172,11 @@ export default function ActivityListScreen({ navigation, route }: Props) {
           activities.length === 0 && styles.emptyListContent,
         ]}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            tintColor={theme.colors.primary}
+          />
         }
         ListEmptyComponent={!isLoading ? renderEmpty : null}
       />
@@ -178,12 +188,9 @@ export default function ActivityListScreen({ navigation, route }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F2F7',
   },
   filterContainer: {
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E5EA',
   },
   filterScroll: {
     paddingHorizontal: 12,
@@ -194,16 +201,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
-    backgroundColor: '#E5E5EA',
     marginHorizontal: 4,
-  },
-  filterChipActive: {
-    backgroundColor: '#007AFF',
   },
   filterChipText: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#8E8E93',
     maxWidth: 150,
   },
   filterChipTextActive: {

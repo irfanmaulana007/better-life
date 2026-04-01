@@ -4,15 +4,16 @@ import {
   View,
   FlatList,
   RefreshControl,
-  ActivityIndicator,
 } from 'react-native';
 import { useMilestoneStore } from '@store';
-import { MilestoneCard, EmptyState, FAB } from '@components';
+import { MilestoneCard, EmptyState, FAB, Loading } from '@components';
+import { useTheme } from '@hooks';
 import type { MilestoneStackScreenProps } from '@types/navigation';
 
 type Props = MilestoneStackScreenProps<'MilestoneList'>;
 
 export default function MilestoneListScreen({ navigation }: Props) {
+  const theme = useTheme();
   const { milestones, isLoading, fetchMilestones } = useMilestoneStore();
 
   useEffect(() => {
@@ -35,15 +36,11 @@ export default function MilestoneListScreen({ navigation }: Props) {
   }, [navigation]);
 
   if (isLoading && milestones.length === 0) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
-      </View>
-    );
+    return <Loading message="Loading milestones..." />;
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <FlatList
         data={milestones}
         keyExtractor={item => item.localId}
@@ -63,7 +60,7 @@ export default function MilestoneListScreen({ navigation }: Props) {
           <RefreshControl
             refreshing={isLoading}
             onRefresh={handleRefresh}
-            tintColor="#007AFF"
+            tintColor={theme.colors.primary}
           />
         }
         ListEmptyComponent={
@@ -82,13 +79,6 @@ export default function MilestoneListScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F2F7',
-  },
-  loadingContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F2F2F7',
   },
   listContent: {
     paddingVertical: 8,
